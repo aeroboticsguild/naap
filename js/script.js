@@ -462,6 +462,9 @@ firebase.auth().onAuthStateChanged((user) => {
         // Load member data from Firestore
         loadMemberData(user.uid);
         
+        // 🆕 Load training modules
+        setTimeout(loadTrainingModules, 1000);
+        
     } else {
         // User is signed out
         if (loginContainer) loginContainer.style.display = 'block';
@@ -899,7 +902,7 @@ if (requestForm) {
             // This requires Firebase Storage to be set up
             // Uncomment the code below if you have Firebase Storage configured
             
-            /*
+
             const storageRef = firebase.storage().ref();
             const fileRef = storageRef.child(`subject_requests/${requestRef.id}/${file.name}`);
             await fileRef.put(file);
@@ -907,7 +910,7 @@ if (requestForm) {
             await firebase.firestore().collection('subjectRequests').doc(requestRef.id).update({
                 fileUrl: downloadUrl
             });
-            */
+
             
             if (message) {
                 message.textContent = `✅ Request for "${subjectTitle}" submitted successfully! The admin will review it.`;
@@ -998,5 +1001,247 @@ document.addEventListener('DOMContentLoaded', function() {
     const activeTab = document.querySelector('.tab-btn.active');
     if (activeTab && activeTab.getAttribute('data-tab') === 'knowledge') {
         loadReviewers();
+    }
+});
+
+// ============================================================
+// ===== LOAD TRAINING MODULES FROM FIRESTORE =====
+// ============================================================
+
+async function loadTrainingModules() {
+    console.log('📊 Loading training modules from Firestore...');
+    
+    try {
+        const snapshot = await firebase.firestore()
+            .collection('trainingModules')
+            .where('isActive', '==', true)
+            .orderBy('createdAt', 'desc')
+            .get();
+        
+        console.log('📊 Found', snapshot.size, 'training modules');
+        
+        if (snapshot.empty) {
+            // If no modules in Firestore, show the default/hardcoded ones
+            console.log('📚 No modules in Firestore, showing default content');
+            loadDefaultTrainingModules();
+            return;
+        }
+        
+        // Separate videos and resources
+        const videos = [];
+        const resources = [];
+        
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            if (data.type === 'video') {
+                videos.push(data);
+            } else if (data.type === 'resource') {
+                resources.push(data);
+            }
+        });
+        
+        // Render videos
+        renderVideos(videos);
+        
+        // Render resources
+        renderResources(resources);
+        
+    } catch (error) {
+        console.error('❌ Error loading training modules:', error);
+        // Show default content on error
+        loadDefaultTrainingModules();
+    }
+}
+
+function renderVideos(videos) {
+    const container = document.getElementById('videoModulesContainer');
+    if (!container) return;
+    
+    if (videos.length === 0) {
+        container.innerHTML = `
+            <div class="video-card" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+                <p style="color: var(--gray-500);">No videos available yet. Check back soon!</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = '';
+    videos.forEach(video => {
+        // Handle different YouTube URL formats
+        let embedUrl = video.url;
+        if (embedUrl.includes('watch?v=')) {
+            const videoId = embedUrl.split('watch?v=')[1]?.split('&')[0];
+            if (videoId) {
+                embedUrl = `https://www.youtube.com/embed/${videoId}`;
+            }
+        } else if (embedUrl.includes('youtu.be/')) {
+            const videoId = embedUrl.split('youtu.be/')[1]?.split('?')[0];
+            if (videoId) {
+                embedUrl = `https://www.youtube.com/embed/${videoId}`;
+            }
+        }
+        
+        html += `
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="${embedUrl}" title="${video.title || 'Video'}" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <h5>${video.title || 'Untitled Video'}</h5>
+                <p>${video.description || 'No description available'}</p>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function renderResources(resources) {
+    const container = document.getElementById('resourceModulesContainer');
+    if (!container) return;
+    
+    if (resources.length === 0) {
+        container.innerHTML = `
+            <div class="resource-link" style="grid-column: 1 / -1; text-align: center; padding: 2rem; justify-content: center;">
+                <p style="color: var(--gray-500);">No resources available yet. Check back soon!</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = '';
+    resources.forEach(resource => {
+        const icon = getResourceIcon(resource.url);
+        html += `
+            <a href="${resource.url}" target="_blank" class="resource-link">
+                <i class="${icon}"></i>
+                <div>
+                    <strong>${resource.title || 'Untitled Resource'}</strong>
+                    <p>${resource.description || 'No description available'}</p>
+                </div>
+            </a>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function getResourceIcon(url) {
+    if (!url) return 'fas fa-link';
+    const domain = url.toLowerCase();
+    if (domain.includes('arduino')) return 'fas fa-microchip';
+    if (domain.includes('raspberry')) return 'fab fa-raspberry-pi';
+    if (domain.includes('youtube')) return 'fab fa-youtube';
+    if (domain.includes('github')) return 'fab fa-github';
+    if (domain.includes('wikipedia')) return 'fab fa-wikipedia-w';
+    if (domain.includes('pdf')) return 'fas fa-file-pdf';
+    if (domain.includes('docs.google')) return 'fas fa-file-alt';
+    if (domain.includes('electronics')) return 'fas fa-bolt';
+    if (domain.includes('robot')) return 'fas fa-robot';
+    return 'fas fa-link';
+}
+
+// ============================================================
+// ===== DEFAULT TRAINING MODULES (Fallback) =====
+// ============================================================
+
+function loadDefaultTrainingModules() {
+    console.log('📚 Loading default training modules...');
+    
+    // Default videos
+    const defaultVideos = [
+        {
+            title: "Electronics Basics for Beginners",
+            description: "Learn the fundamentals of electronics, circuits, and components",
+            url: "https://www.youtube.com/embed/6M3xRf8L-Gg"
+        },
+        {
+            title: "Arduino Complete Tutorial",
+            description: "Master Arduino programming and hardware integration",
+            url: "https://www.youtube.com/embed/j-_s8f5K30I"
+        },
+        {
+            title: "Robotics Fundamentals",
+            description: "Introduction to robotics, sensors, and automation",
+            url: "https://www.youtube.com/embed/Kay8hnc5jC0"
+        },
+        {
+            title: "Python for Robotics",
+            description: "Learn Python programming for robotics applications",
+            url: "https://www.youtube.com/embed/6Pk0r-AM_ys"
+        }
+    ];
+    
+    // Default resources
+    const defaultResources = [
+        {
+            title: "Arduino Official",
+            description: "Official Arduino documentation and tutorials",
+            url: "https://www.arduino.cc/"
+        },
+        {
+            title: "Raspberry Pi",
+            description: "Learn about single-board computers and robotics",
+            url: "https://www.raspberrypi.org/"
+        },
+        {
+            title: "Electronics Tutorials",
+            description: "Comprehensive electronics theory and practice",
+            url: "https://www.electronics-tutorials.ws/"
+        },
+        {
+            title: "Robotics Alliance",
+            description: "Robotics research and development resources",
+            url: "https://www.robotics.org/"
+        },
+        {
+            title: "Learn Robotics",
+            description: "Project-based robotics learning platform",
+            url: "https://www.learnrobotics.org/"
+        },
+        {
+            title: "RobotShop Community",
+            description: "Robotics projects, guides, and community forums",
+            url: "https://www.robotshop.com/community/"
+        }
+    ];
+    
+    renderVideos(defaultVideos);
+    renderResources(defaultResources);
+}
+
+// ============================================================
+// ===== INITIALIZE TRAINING MODULES ON DASHBOARD LOAD =====
+// ============================================================
+
+// Load training modules when dashboard is shown
+function initializeTrainingModules() {
+    // Check if user is logged in and dashboard is visible
+    const user = firebase.auth().currentUser;
+    if (user) {
+        const dashboard = document.getElementById('memberDashboard');
+        if (dashboard && dashboard.style.display !== 'none') {
+            console.log('📚 Loading training modules for dashboard...');
+            // Small delay to ensure DOM is ready
+            setTimeout(loadTrainingModules, 500);
+        }
+    }
+}
+
+
+// Also load when the training tab is clicked
+document.addEventListener('click', function(e) {
+    const target = e.target.closest('.tab-btn');
+    if (target && target.getAttribute('data-tab') === 'training') {
+        console.log('📚 Training tab clicked, loading modules...');
+        setTimeout(loadTrainingModules, 200);
+    }
+});
+
+// Load on page load if user is already logged in
+document.addEventListener('DOMContentLoaded', function() {
+    const user = firebase.auth().currentUser;
+    if (user) {
+        setTimeout(initializeTrainingModules, 1500);
     }
 });
