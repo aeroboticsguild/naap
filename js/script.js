@@ -264,3 +264,194 @@ if (heroCard) {
         heroCard.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
     });
 }
+// ===== AUTH STATE OBSERVER =====
+firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+        // User is signed in
+        document.getElementById('loginContainer').style.display = 'none';
+        document.getElementById('memberDashboard').style.display = 'block';
+        document.getElementById('loginNavBtn').style.display = 'none';
+        document.getElementById('dashboardNavBtn').style.display = 'inline-block';
+        
+        // Update user info
+        document.getElementById('userName').textContent = user.displayName || 'Member';
+        document.getElementById('userEmail').textContent = user.email;
+        
+        // Load member data from Firestore
+        loadMemberData(user.uid);
+    } else {
+        // User is signed out
+        document.getElementById('loginContainer').style.display = 'block';
+        document.getElementById('memberDashboard').style.display = 'none';
+        document.getElementById('loginNavBtn').style.display = 'inline-block';
+        document.getElementById('dashboardNavBtn').style.display = 'none';
+        document.getElementById('forgotContainer').style.display = 'none';
+        document.getElementById('loginContainer').querySelector('.auth-box').style.display = 'block';
+    }
+});
+
+// ===== LOAD MEMBER DATA FROM FIRESTORE =====
+async function loadMemberData(uid) {
+    try {
+        const doc = await firebase.firestore().collection('members').doc(uid).get();
+        if (doc.exists) {
+            const data = doc.data();
+            document.getElementById('userPoints').textContent = data.points || 0;
+            document.getElementById('userRank').textContent = data.rank || 'F';
+            document.getElementById('userRankBadge').textContent = 'Rank: ' + (data.rank || 'F');
+            document.getElementById('userProjects').textContent = data.projects ? data.projects.length : 0;
+            document.getElementById('userModules').textContent = data.modules ? data.modules.length : 0;
+        }
+    } catch (error) {
+        console.error('Error loading member data:', error);
+    }
+}
+
+// ===== LOGIN =====
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    const message = document.getElementById('loginMessage');
+    
+    try {
+        message.textContent = '⏳ Signing in...';
+        message.className = 'auth-message loading';
+        message.style.display = 'block';
+        
+        await firebase.auth().signInWithEmailAndPassword(email, password);
+        
+        message.textContent = '✅ Login successful!';
+        message.className = 'auth-message success';
+        
+        // Clear form
+        document.getElementById('loginPassword').value = '';
+        
+    } catch (error) {
+        message.textContent = '❌ ' + error.message;
+        message.className = 'auth-message error';
+        message.style.display = 'block';
+    }
+});
+
+// ===== LOGOUT =====
+function logoutUser() {
+    firebase.auth().signOut();
+    // Reset UI
+    document.getElementById('loginEmail').value = '';
+    document.getElementById('loginPassword').value = '';
+    const message = document.getElementById('loginMessage');
+    message.style.display = 'none';
+}
+
+// ===== TOGGLE PASSWORD VISIBILITY =====
+function togglePassword(inputId) {
+    const input = document.getElementById(inputId);
+    const icon = input.nextElementSibling.querySelector('i');
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fas fa-eye-slash';
+    } else {
+        input.type = 'password';
+        icon.className = 'fas fa-eye';
+    }
+}
+
+// ===== SHOW FORGOT PASSWORD =====
+function showForgotPassword() {
+    document.getElementById('loginContainer').querySelector('.auth-box').style.display = 'none';
+    document.getElementById('forgotContainer').style.display = 'block';
+}
+
+function showLogin() {
+    document.getElementById('forgotContainer').style.display = 'none';
+    document.getElementById('loginContainer').querySelector('.auth-box').style.display = 'block';
+    document.getElementById('resetMessage').style.display = 'none';
+}
+
+// ===== FORGOT PASSWORD =====
+document.getElementById('forgotForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('resetEmail').value;
+    const message = document.getElementById('resetMessage');
+    
+    try {
+        message.textContent = '⏳ Sending reset link...';
+        message.className = 'auth-message loading';
+        message.style.display = 'block';
+        
+        await firebase.auth().sendPasswordResetEmail(email);
+        
+        message.textContent = '✅ Reset link sent to your email!';
+        message.className = 'auth-message success';
+        document.getElementById('resetEmail').value = '';
+        
+    } catch (error) {
+        message.textContent = '❌ ' + error.message;
+        message.className = 'auth-message error';
+        message.style.display = 'block';
+    }
+});
+
+// ===== CHANGE PASSWORD =====
+function showChangePassword() {
+    document.getElementById('changePasswordModal').style.display = 'flex';
+    document.getElementById('currentPassword').value = '';
+    document.getElementById('newPassword').value = '';
+    document.getElementById('confirmPassword').value = '';
+    const msg = document.getElementById('passwordMessage');
+    msg.style.display = 'none';
+}
+
+function hideChangePassword() {
+    document.getElementById('changePasswordModal').style.display = 'none';
+}
+
+document.getElementById('changePasswordForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const currentPwd = document.getElementById('currentPassword').value;
+    const newPwd = document.getElementById('newPassword').value;
+    const confirmPwd = document.getElementById('confirmPassword').value;
+    const message = document.getElementById('passwordMessage');
+    
+    // Validate
+    if (newPwd.length < 6) {
+        message.textContent = '❌ Password must be at least 6 characters.';
+        message.className = 'auth-message error';
+        message.style.display = 'block';
+        return;
+    }
+    
+    if (newPwd !== confirmPwd) {
+        message.textContent = '❌ Passwords do not match.';
+        message.className = 'auth-message error';
+        message.style.display = 'block';
+        return;
+    }
+    
+    try {
+        message.textContent = '⏳ Updating password...';
+        message.className = 'auth-message loading';
+        message.style.display = 'block';
+        
+        const user = firebase.auth().currentUser;
+        const credential = firebase.auth.EmailAuthProvider.credential(user.email, currentPwd);
+        await user.reauthenticateWithCredential(credential);
+        await user.updatePassword(newPwd);
+        
+        message.textContent = '✅ Password updated successfully!';
+        message.className = 'auth-message success';
+        
+        // Clear form
+        document.getElementById('currentPassword').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmPassword').value = '';
+        
+        setTimeout(hideChangePassword, 2000);
+        
+    } catch (error) {
+        message.textContent = '❌ ' + error.message;
+        message.className = 'auth-message error';
+        message.style.display = 'block';
+    }
+});
