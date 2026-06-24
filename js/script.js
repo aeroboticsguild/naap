@@ -41,7 +41,6 @@ createHeroParticles();
 // ===== SPLASH SCREEN AUTO-DISMISS =====
 setTimeout(() => {
     splashScreen.classList.add('hidden');
-    // Trigger scroll reveal after splash
     setTimeout(() => {
         document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right').forEach(el => {
             el.classList.add('visible');
@@ -62,7 +61,6 @@ const revealObserver = new IntersectionObserver((entries) => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Add scroll-reveal classes to elements
     document.querySelectorAll('.mission-card, .benefit-card, .officer-card, .process-card, .resource-card, .faq-item').forEach((el, index) => {
         el.classList.add('scroll-reveal');
         el.style.transitionDelay = (index * 0.05) + 's';
@@ -86,7 +84,6 @@ hamburger.addEventListener('click', () => {
     navLinks.classList.toggle('open');
 });
 
-// Close nav on link click (mobile)
 document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', () => {
         navLinks.classList.remove('open');
@@ -134,7 +131,6 @@ const animateCounter = (el) => {
     updateCounter();
 };
 
-// Intersection Observer for counters
 const observerOptions = {
     threshold: 0.3,
     rootMargin: '0px 0px -50px 0px'
@@ -154,7 +150,7 @@ const observer = new IntersectionObserver((entries) => {
 
 stats.forEach(stat => observer.observe(stat));
 
-// ===== SMOOTH SCROLL (for all anchor links) =====
+// ===== SMOOTH SCROLL =====
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
         const href = this.getAttribute('href');
@@ -188,7 +184,6 @@ function toggleFAQ(element) {
     const item = element.parentElement;
     const isActive = item.classList.contains('active');
 
-    // Close all other FAQs
     document.querySelectorAll('.faq-item').forEach(faq => {
         faq.classList.remove('active');
     });
@@ -220,7 +215,7 @@ console.log('🚀 AeroBotics Guild · Ready for takeoff!');
 console.log('📋 Members: 20+ | Projects: 1');
 console.log('✨ Innovate. Automate. Elevate.');
 
-// ===== COUNTDOWN TIMER (Membership Drive) =====
+// ===== COUNTDOWN TIMER =====
 function updateCountdown() {
     const targetDate = new Date('2026-07-31T23:59:59').getTime();
     const now = new Date().getTime();
@@ -248,7 +243,7 @@ function updateCountdown() {
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-// ===== PARALLAX ON MOUSE MOVE (Hero Card) =====
+// ===== PARALLAX ON MOUSE MOVE =====
 const heroCard = document.querySelector('.hero-card');
 if (heroCard) {
     document.querySelector('.hero-image').addEventListener('mousemove', (e) => {
@@ -271,7 +266,7 @@ if (heroCard) {
 // ===== FIREBASE AUTHENTICATION & MEMBER MANAGEMENT =====
 // ============================================================
 
-// ===== CREATE MEMBER DOCUMENT IF IT DOESN'T EXIST =====
+// ===== CREATE MEMBER DOCUMENT =====
 async function createMemberDocument(uid, email, displayName) {
     try {
         console.log('📝 Creating member document for:', email);
@@ -297,56 +292,23 @@ async function createMemberDocument(uid, email, displayName) {
     }
 }
 
-// ===== AUTH STATE OBSERVER =====
-firebase.auth().onAuthStateChanged((user) => {
-    console.log('🔐 Auth state changed:', user ? 'Logged in' : 'Logged out');
-    
-    if (user) {
-        // User is signed in
-        document.getElementById('loginContainer').style.display = 'none';
-        document.getElementById('memberDashboard').style.display = 'block';
-        document.getElementById('loginNavBtn').style.display = 'none';
-        document.getElementById('dashboardNavBtn').style.display = 'inline-block';
-        
-        // Update user info
-        document.getElementById('userName').textContent = user.displayName || 'Member';
-        document.getElementById('userEmail').textContent = user.email;
-        
-        // 🔥 LOAD MEMBER DATA FROM FIRESTORE
-        loadMemberData(user.uid);
-        
-    } else {
-        // User is signed out
-        document.getElementById('loginContainer').style.display = 'block';
-        document.getElementById('memberDashboard').style.display = 'none';
-        document.getElementById('loginNavBtn').style.display = 'inline-block';
-        document.getElementById('dashboardNavBtn').style.display = 'none';
-        document.getElementById('forgotContainer').style.display = 'none';
-        document.getElementById('loginContainer').querySelector('.auth-box').style.display = 'block';
-    }
-});
-
 // ===== LOAD MEMBER DATA FROM FIRESTORE =====
 async function loadMemberData(uid) {
     try {
         console.log('📊 Loading member data for UID:', uid);
         
-        // Get member document from Firestore
         const doc = await firebase.firestore().collection('members').doc(uid).get();
         
         if (doc.exists) {
             const data = doc.data();
             console.log('✅ Member data loaded:', data);
             
-            // Safely get values with fallbacks - FIXED: use name field
             const points = data.points !== undefined ? data.points : 0;
             const rank = data.rank || 'F';
             const projects = data.projects || [];
             const modules = data.modules || [];
-            // FIXED: Use name field properly
             const name = data.name || 'Member';
             
-            // Update UI
             document.getElementById('userName').textContent = name;
             document.getElementById('userPoints').textContent = points;
             document.getElementById('userRank').textContent = rank;
@@ -358,18 +320,13 @@ async function loadMemberData(uid) {
             
         } else {
             console.warn('⚠️ No member document found for UID:', uid);
-            console.log('🔄 Attempting to create member document...');
             
-            // Get user info
             const user = firebase.auth().currentUser;
             const email = user ? user.email : 'unknown@email.com';
-            // FIXED: Use displayName from Firebase auth
             const name = user ? user.displayName || 'Member' : 'Member';
             
-            // Create the document
             await createMemberDocument(uid, email, name);
             
-            // Set default values
             document.getElementById('userName').textContent = name;
             document.getElementById('userPoints').textContent = '0';
             document.getElementById('userRank').textContent = 'F';
@@ -382,16 +339,40 @@ async function loadMemberData(uid) {
         
     } catch (error) {
         console.error('❌ Error loading member data:', error);
-        // Set fallback values
         document.getElementById('userPoints').textContent = '0';
         document.getElementById('userRank').textContent = 'F';
         document.getElementById('userRankBadge').textContent = 'Rank: F';
         document.getElementById('userProjects').textContent = '0';
         document.getElementById('userModules').textContent = '0';
-        // FIXED: Set a default name
         document.getElementById('userName').textContent = 'Member';
     }
 }
+
+// ===== AUTH STATE OBSERVER =====
+firebase.auth().onAuthStateChanged((user) => {
+    console.log('🔐 Auth state changed:', user ? 'Logged in' : 'Logged out');
+    
+    if (user) {
+        document.getElementById('loginContainer').style.display = 'none';
+        document.getElementById('memberDashboard').style.display = 'block';
+        document.getElementById('loginNavBtn').style.display = 'none';
+        document.getElementById('dashboardNavBtn').style.display = 'inline-block';
+        
+        document.getElementById('userName').textContent = user.displayName || 'Member';
+        document.getElementById('userEmail').textContent = user.email;
+        
+        loadMemberData(user.uid);
+        
+    } else {
+        document.getElementById('loginContainer').style.display = 'block';
+        document.getElementById('memberDashboard').style.display = 'none';
+        document.getElementById('loginNavBtn').style.display = 'inline-block';
+        document.getElementById('dashboardNavBtn').style.display = 'none';
+        document.getElementById('forgotContainer').style.display = 'none';
+        document.getElementById('loginContainer').querySelector('.auth-box').style.display = 'block';
+    }
+});
+
 // ===== LOGIN =====
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -408,8 +389,6 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         
         message.textContent = '✅ Login successful!';
         message.className = 'auth-message success';
-        
-        // Clear form
         document.getElementById('loginPassword').value = '';
         
     } catch (error) {
@@ -422,7 +401,6 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 // ===== LOGOUT =====
 function logoutUser() {
     firebase.auth().signOut();
-    // Reset UI
     document.getElementById('loginEmail').value = '';
     document.getElementById('loginPassword').value = '';
     const message = document.getElementById('loginMessage');
@@ -499,7 +477,6 @@ document.getElementById('changePasswordForm').addEventListener('submit', async (
     const confirmPwd = document.getElementById('confirmPassword').value;
     const message = document.getElementById('passwordMessage');
     
-    // Validate
     if (newPwd.length < 6) {
         message.textContent = '❌ Password must be at least 6 characters.';
         message.className = 'auth-message error';
@@ -527,7 +504,6 @@ document.getElementById('changePasswordForm').addEventListener('submit', async (
         message.textContent = '✅ Password updated successfully!';
         message.className = 'auth-message success';
         
-        // Clear form
         document.getElementById('currentPassword').value = '';
         document.getElementById('newPassword').value = '';
         document.getElementById('confirmPassword').value = '';
