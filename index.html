@@ -788,43 +788,26 @@
         </button>
     </div>
 
-    <!-- ===== TRAINING MODULES TAB ===== -->
+        <!-- ===== TRAINING MODULES TAB ===== -->
     <div class="tab-content active" id="tab-training">
         <div class="training-grid">
             <!-- YouTube Videos Section -->
             <div class="training-section">
                 <h4><i class="fab fa-youtube"></i> Video Tutorials</h4>
-                <div class="video-grid">
-                    <div class="video-card">
-                        <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/6M3xRf8L-Gg" title="Electronics Basics" allowfullscreen></iframe>
-                        </div>
-                        <h5>Electronics Basics for Beginners</h5>
-                        <p>Learn the fundamentals of electronics, circuits, and components</p>
-                    </div>
-                    <div class="video-card">
-                        <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/j-_s8f5K30I" title="Arduino Tutorial" allowfullscreen></iframe>
-                        </div>
-                        <h5>Arduino Complete Tutorial</h5>
-                        <p>Master Arduino programming and hardware integration</p>
-                    </div>
-                    <div class="video-card">
-                        <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/Kay8hnc5jC0" title="Robotics for Beginners" allowfullscreen></iframe>
-                        </div>
-                        <h5>Robotics Fundamentals</h5>
-                        <p>Introduction to robotics, sensors, and automation</p>
-                    </div>
-                    <div class="video-card">
-                        <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/6Pk0r-AM_ys" title="Python Programming" allowfullscreen></iframe>
-                        </div>
-                        <h5>Python for Robotics</h5>
-                        <p>Learn Python programming for robotics applications</p>
-                    </div>
+                <div id="videoModulesContainer" class="video-grid">
+                    <p class="loading-text">Loading videos...</p>
                 </div>
             </div>
+
+            <!-- Study Resources Section -->
+            <div class="training-section">
+                <h4><i class="fas fa-globe"></i> Study Resources</h4>
+                <div id="resourceModulesContainer" class="resource-links">
+                    <p class="loading-text">Loading resources...</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
             <!-- Study Resources Section -->
             <div class="training-section">
