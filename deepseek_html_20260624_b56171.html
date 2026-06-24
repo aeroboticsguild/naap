@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel · AeroBotics Guild</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+    
+    <style>
+        /* Admin Panel Specific Styles */
+        .admin-panel {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: var(--radius);
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .admin-panel h2 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .admin-panel .subtitle {
+            color: var(--gray-500);
+            margin-bottom: 2rem;
+        }
+        
+        .admin-panel .form-group {
+            margin-bottom: 1.2rem;
+        }
+        
+        .admin-panel label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: var(--primary);
+        }
+        
+        .admin-panel input,
+        .admin-panel select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .admin-panel input:focus,
+        .admin-panel select:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(182, 139, 64, 0.1);
+        }
+        
+        .admin-panel .btn {
+            width: 100%;
+            justify-content: center;
+            padding: 1rem;
+        }
+        
+        .admin-panel .success {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .admin-panel .success.show {
+            display: block;
+        }
+        
+        .admin-panel .error {
+            display: none;
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .admin-panel .error.show {
+            display: block;
+        }
+        
+        .admin-panel .admin-info {
+            background: var(--gray-50);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .admin-panel .admin-info span {
+            color: var(--gray-600);
+        }
+        
+        .admin-panel .admin-info .badge-admin {
+            background: var(--gold);
+            color: var(--white);
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .admin-panel .logout-btn {
+            color: var(--gray-500);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        .admin-panel .logout-btn:hover {
+            color: #721c24;
+        }
+        
+        .admin-panel .member-list {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-200);
+        }
+        
+        .admin-panel .member-list h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .admin-panel .member-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            background: var(--gray-50);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            border: 1px solid var(--gray-200);
+        }
+        
+        .admin-panel .member-item .member-name {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .admin-panel .member-item .member-email {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+        }
+        
+        .admin-panel .member-item .member-rank {
+            padding: 0.1rem 0.6rem;
+            border-radius: 30px;
+            background: var(--gold);
+            color: var(--white);
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+        
+        .admin-panel .member-item .delete-btn {
+            color: #721c24;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .admin-panel .member-item .delete-btn:hover {
+            color: #d9534f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="admin-panel" id="adminPanel">
+            <h2><i class="fas fa-user-shield" style="color: var(--gold);"></i> Admin Panel</h2>
+            <p class="subtitle">Manage AeroBotics Guild Members</p>
+            
+            <!-- Admin Info (Visible after login) -->
+            <div class="admin-info" id="adminInfo" style="display:none;">
+                <div>
+                    <i class="fas fa-user-circle" style="color: var(--gold); font-size: 1.5rem;"></i>
+                    <span id="adminName">Admin</span>
+                    <span class="badge-admin">Admin</span>
+                </div>
+                <a href="#" onclick="logoutAdmin()" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+
+            <!-- Login Form (Shown when not logged in) -->
+            <div id="loginSection">
+                <form id="adminLoginForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="adminEmail"><i class="fas fa-envelope"></i> Admin Email</label>
+                        <input type="email" id="adminEmail" placeholder="Enter admin email" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPassword"><i class="fas fa-lock"></i> Admin Password</label>
+                        <input type="password" id="adminPassword" placeholder="Enter admin password" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                    <div id="loginError" class="error"></div>
+                </form>
+            </div>
+
+            <!-- Admin Actions (Shown after login) -->
+            <div id="adminActions" style="display:none;">
+                <form id="adminAddMemberForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="memberName"><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="memberName" placeholder="e.g., Juan Dela Cruz" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="memberEmail"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="memberEmail" placeholder="e.g., juan@email.com" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="memberPassword"><i class="fas fa-lock"></i> Temporary Password</label>
+                        <input type="text" id="memberPassword" placeholder="e.g., Temp123!" required />
+                        <small style="color: var(--gray-500); font-size: 0.8rem;">Member will change this on first login</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="memberRank"><i class="fas fa-star"></i> Initial Rank</label>
+                        <select id="memberRank" required>
+                            <option value="F">F - Entry Level</option>
+                            <option value="D">D - Developing</option>
+                            <option value="C">C - Contributing</option>
+                            <option value="B">B - Advanced</option>
+                            <option value="A">A - Elite</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="memberPoints"><i class="fas fa-coins"></i> Initial Points</label>
+                        <input type="number" id="memberPoints" value="0" min="0" />
+                    </div>
+                    <div class="form-group">
+                        <label for="memberTrack"><i class="fas fa-robot"></i> Track</label>
+                        <select id="memberTrack">
+                            <option value="Systems & Fabrication">Systems & Fabrication</option>
+                            <option value="Software & Programming">Software & Programming</option>
+                            <option value="Research & Development">Research & Development</option>
+                            <option value="Multidisciplinary">Multidisciplinary</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i> Create Member Account
+                    </button>
+                    <div id="adminMessage" class="success"></div>
+                    <div id="adminError" class="error"></div>
+                </form>
+
+                <!-- Member List -->
+                <div class="member-list" id="memberList">
+                    <h3><i class="fas fa-users"></i> Current Members</h3>
+                    <div id="membersContainer">
+                        <p style="color: var(--gray-500);">Loading members...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        // ===== YOUR FIREBASE CONFIG =====
+        const firebaseConfig = {
+            apiKey: "YOUR-API-KEY",
+            authDomain: "YOUR-PROJECT.firebaseapp.com",
+            projectId: "YOUR-PROJECT-ID",
+            storageBucket: "YOUR-PROJECT.appspot.com",
+            messagingSenderId: "YOUR-SENDER-ID",
+            appId: "YOUR-APP-ID"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // ===== CHECK ADMIN STATUS =====
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                // Check if user is an admin
+                const adminDoc = await db.collection('admins').doc(user.uid).get();
+                if (adminDoc.exists) {
+                    // Show admin panel
+                    document.getElementById('loginSection').style.display = 'none';
+                    document.getElementById('adminActions').style.display = 'block';
+                    document.getElementById('adminInfo').style.display = 'flex';
+                    document.getElementById('adminName').textContent = adminDoc.data().name || 'Admin';
+                    loadMembers();
+                } else {
+                    // Not an admin
+                    document.getElementById('loginSection').style.display = 'block';
+                    document.getElementById('adminActions').style.display = 'none';
+                    document.getElementById('adminInfo').style.display = 'none';
+                    document.getElementById('loginError').textContent = '❌ You are not authorized as admin.';
+                    document.getElementById('loginError').className = 'error show';
+                    auth.signOut();
+                }
+            } else {
+                // Show login
+                document.getElementById('loginSection').style.display = 'block';
+                document.getElementById('adminActions').style.display = 'none';
+                document.getElementById('adminInfo').style.display = 'none';
+            }
+        });
+
+        // ===== ADMIN LOGIN =====
+        document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+            const errorDiv = document.getElementById('loginError');
+            
+            try {
+                errorDiv.className = 'error';
+                errorDiv.textContent = '⏳ Logging in...';
+                await auth.signInWithEmailAndPassword(email, password);
+            } catch (error) {
+                errorDiv.textContent = '❌ ' + error.message;
+                errorDiv.className = 'error show';
+            }
+        });
+
+        // ===== ADMIN LOGOUT =====
+        function logoutAdmin() {
+            auth.signOut();
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('adminActions').style.display = 'none';
+            document.getElementById('adminInfo').style.display = 'none';
+            document.getElementById('adminEmail').value = '';
+            document.getElementById('adminPassword').value = '';
+        }
+
+        // ===== ADD MEMBER =====
+        document.getElementById('adminAddMemberForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('memberName').value;
+            const email = document.getElementById('memberEmail').value;
+            const password = document.getElementById('memberPassword').value;
+            const rank = document.getElementById('memberRank').value;
+            const points = parseInt(document.getElementById('memberPoints').value) || 0;
+            const track = document.getElementById('memberTrack').value;
+            
+            const successDiv = document.getElementById('adminMessage');
+            const errorDiv = document.getElementById('adminError');
+            
+            try {
+                successDiv.className = 'success';
+                successDiv.textContent = '⏳ Creating account...';
+                
+                // Create user in Firebase Auth
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // Update display name
+                await user.updateProfile({ displayName: name });
+                
+                // Add member data to Firestore
+                await db.collection('members').doc(user.uid).set({
+                    name: name,
+                    email: email,
+                    rank: rank,
+                    points: points,
+                    tracks: [track],
+                    modules: [],
+                    projects: [],
+                    joinDate: new Date().toISOString(),
+                    role: 'student'
+                });
+                
+                // Clear form
+                document.getElementById('memberName').value = '';
+                document.getElementById('memberEmail').value = '';
+                document.getElementById('memberPassword').value = '';
+                document.getElementById('memberPoints').value = '0';
+                
+                successDiv.textContent = '✅ Member ' + name + ' created successfully!';
+                successDiv.className = 'success show';
+                errorDiv.className = 'error';
+                
+                // Reload member list
+                loadMembers();
+                
+                setTimeout(() => {
+                    successDiv.className = 'success';
+                }, 5000);
+                
+            } catch (error) {
+                errorDiv.textContent = '❌ ' + error.message;
+                errorDiv.className = 'error show';
+                successDiv.className = 'success';
+            }
+        });
+
+        // ===== LOAD MEMBERS =====
+        async function loadMembers() {
+            const container = document.getElementById('membersContainer');
+            container.innerHTML = '<p style="color: var(--gray-500);">Loading members...</p>';
+            
+            try {
+                const snapshot = await db.collection('members').orderBy('name').get();
+                if (snapshot.empty) {
+                    container.innerHTML = '<p style="color: var(--gray-500);">No members yet.</p>';
+                    return;
+                }
+                
+                let html = '';
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    html += `
+                        <div class="member-item">
+                            <div>
+                                <span class="member-name">${data.name || 'No Name'}</span>
+                                <span class="member-email">${data.email}</span>
+                            </div>
+                            <div>
+                                <span class="member-rank">${data.rank || 'F'}</span>
+                                <span style="margin-left: 0.5rem; color: var(--gray-500); font-size: 0.85rem;">
+                                    ${data.points || 0} pts
+                                </span>
+                                <span class="delete-btn" onclick="deleteMember('${doc.id}')" title="Delete Member">
+                                    <i class="fas fa-trash"></i>
+                                </span>
+                            </div>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+                
+            } catch (error) {
+                container.innerHTML = '<p style="color: #721c24;">Error loading members: ' + error.message + '</p>';
+            }
+        }
+
+        // ===== DELETE MEMBER =====
+        async function deleteMember(uid) {
+            if (confirm('Are you sure you want to delete this member?')) {
+                try {
+                    // Delete from Firestore
+                    await db.collection('members').doc(uid).delete();
+                    // Delete from Authentication (optional, requires admin SDK)
+                    // Note: Cannot delete auth users from client-side for security
+                    alert('Member removed from database. (Auth account must be deleted manually in Firebase Console)');
+                    loadMembers();
+                } catch (error) {
+                    alert('Error deleting member: ' + error.message);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
