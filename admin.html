@@ -756,50 +756,61 @@
             }
         });
 
-        // ===== LOAD MEMBERS =====
-        async function loadMembers() {
-            const container = document.getElementById('membersContainer');
-            container.innerHTML = '<p style="color: var(--gray-500);">Loading members...</p>';
-            
-            try {
-                const snapshot = await db.collection('members').orderBy('name').get();
-                if (snapshot.empty) {
-                    container.innerHTML = '<p style="color: var(--gray-500);">No members yet. Add your first member!</p>';
-                    return;
-                }
-                
-                let html = '';
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    const rankClass = 'rank-' + (data.rank || 'F');
-                    html += `
-                        <div class="member-item">
-                            <div class="member-info">
-                                <span class="member-name">${data.name || 'No Name'}</span>
-                                <span class="member-email">${data.email}</span>
-                                <span class="member-rank ${rankClass}">${data.rank || 'F'}</span>
-                                <span class="member-points">${data.points || 0} pts</span>
-                                <span style="font-size:0.7rem; color:var(--gray-500);">
-                                    ${data.modules ? data.modules.length : 0} modules
-                                </span>
-                            </div>
-                            <div class="member-actions">
-                                <button class="action-btn edit-btn" onclick="openEditModal('${doc.id}')">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="action-btn delete-btn" onclick="deleteMember('${doc.id}')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                });
-                container.innerHTML = html;
-                
-            } catch (error) {
-                container.innerHTML = '<p style="color: #721c24;">Error loading members: ' + error.message + '</p>';
-            }
+       // ===== LOAD MEMBERS =====
+async function loadMembers() {
+    const container = document.getElementById('membersContainer');
+    if (!container) return;
+    container.innerHTML = '<p style="color: var(--gray-500);">Loading members...</p>';
+    
+    try {
+        const snapshot = await db.collection('members').orderBy('name').get();
+        if (snapshot.empty) {
+            container.innerHTML = '<p style="color: var(--gray-500);">No members yet. Add your first member!</p>';
+            return;
         }
+        
+        let html = '';
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            console.log('📝 Member data:', data); // DEBUG
+            
+            // Safely get values with proper fallbacks
+            const name = data?.name || 'No Name';
+            const email = data?.email || 'No Email';
+            const rank = data?.rank || 'F';
+            const points = typeof data?.points === 'number' ? data.points : 0;
+            const modules = Array.isArray(data?.modules) ? data.modules.length : 0;
+            const rankClass = 'rank-' + rank;
+            
+            html += `
+                <div class="member-item">
+                    <div class="member-info">
+                        <span class="member-name">${name}</span>
+                        <span class="member-email">${email}</span>
+                        <span class="member-rank ${rankClass}">${rank}</span>
+                        <span class="member-points">${points} pts</span>
+                        <span style="font-size:0.7rem; color:var(--gray-500);">
+                            ${modules} modules
+                        </span>
+                    </div>
+                    <div class="member-actions">
+                        <button class="action-btn edit-btn" onclick="openEditModal('${doc.id}')">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="action-btn delete-btn" onclick="deleteMember('${doc.id}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        
+    } catch (error) {
+        console.error('Error loading members:', error);
+        container.innerHTML = '<p style="color: #721c24;">Error loading members: ' + error.message + '</p>';
+    }
+}
 
         // ===== OPEN EDIT MODAL (FULL) =====
 async function openEditModal(uid) {
