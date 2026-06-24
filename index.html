@@ -7,19 +7,36 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-    <!-- ===== PRELOADER ===== -->
-    <div class="preloader" id="preloader">
-        <div class="loader">
-            <img src="assets/images/profile.png" alt="AeroBotics" class="loader-logo" />
-            <div class="loader-ring"></div>
+    <!-- ===== CINEMATIC SPLASH SCREEN ===== -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-overlay"></div>
+        <div class="splash-content">
+            <div class="splash-logo-container">
+                <img src="assets/images/profile.png" alt="AeroBotics" class="splash-logo" />
+                <div class="splash-ring"></div>
+                <div class="splash-ring-2"></div>
+            </div>
+            <h1 class="splash-title">
+                <span class="splash-title-main">AeroBotics</span>
+                <span class="splash-title-sub">Guild</span>
+            </h1>
+            <div class="splash-tagline">
+                <span>Innovate.</span>
+                <span>Automate.</span>
+                <span>Elevate.</span>
+            </div>
+            <div class="splash-loader">
+                <div class="splash-loader-bar"></div>
+            </div>
+            <p class="splash-enter">Enter the future <i class="fas fa-arrow-right"></i></p>
         </div>
-        <p>Loading...</p>
+        <div class="splash-particles" id="splashParticles"></div>
     </div>
 
     <!-- ===== NAVIGATION ===== -->
@@ -49,6 +66,7 @@
 
     <!-- ===== HERO ===== -->
     <section class="hero" id="home">
+        <div class="hero-bg-particles" id="heroParticles"></div>
         <div class="container hero-grid">
             <div class="hero-content">
                 <div class="hero-badge">
@@ -532,7 +550,7 @@
                     From soldering to system design, I gained skills that go far beyond
                     the classroom. The mentorship and collaboration here are unmatched.
                 </blockquote>
-                <cite>— Senior Member, Systems & Fabrication Track</cite>
+                <cite>— Founding Member, Systems & Fabrication Track</cite>
                 <div class="testimonial-stars">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
@@ -602,7 +620,7 @@
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        <p>The membership drive is open until <strong>March 31, 2026</strong>. Apply now to secure your spot!</p>
+                        <p>The membership drive is open until <strong>July 31, 2026</strong>. Apply now to secure your spot!</p>
                     </div>
                 </div>
             </div>
@@ -661,9 +679,9 @@
                 </div>
                 <div class="footer-contact">
                     <h4>Contact</h4>
-                    <p><i class="fas fa-envelope"></i> aerobotics@naap.edu.ph</p>
-                    <p><i class="fas fa-phone-alt"></i> (045) 123-4567</p>
-                    <p><i class="fas fa-map-marker-alt"></i> Palmayo-Basa Campus, NAAP</p>
+                    <p><i class="fas fa-envelope"></i> aeroboticsguild@gmail.com </p>
+                    <p><i class="fas fa-phone-alt"></i> 0993-884-5652</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Basa-Palmayo Campus, NAAP</p>
                 </div>
             </div>
             <div class="footer-bottom">
