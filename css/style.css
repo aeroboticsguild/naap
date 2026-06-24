@@ -1390,6 +1390,32 @@ img {
     flex-wrap: wrap;
 }
 
+.adviser-social-links {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: 0.8rem;
+    justify-content: center;
+}
+
+.adviser-social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--gray-100);
+    border-radius: 50%;
+    color: var(--primary);
+    transition: var(--transition);
+    font-size: 0.9rem;
+}
+
+.adviser-social-links a:hover {
+    background: var(--gold);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
 .officer-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
