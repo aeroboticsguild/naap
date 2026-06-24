@@ -802,55 +802,67 @@
         }
 
         // ===== OPEN EDIT MODAL (FULL) =====
-        async function openEditModal(uid) {
+async function openEditModal(uid) {
+    try {
+        const doc = await db.collection('members').doc(uid).get();
+        if (!doc.exists) {
+            alert('Member not found!');
+            return;
+        }
+        
+        const data = doc.data();
+        console.log('📝 Editing member data:', data); // DEBUG
+        
+        // Set basic info with proper fallbacks
+        document.getElementById('editMemberId').value = uid;
+        document.getElementById('editMemberNameDisplay').textContent = 'Editing: ' + (data.name || 'Member');
+        document.getElementById('editName').value = data.name || '';
+        document.getElementById('editEmail').value = data.email || '';
+        document.getElementById('editRank').value = data.rank || 'F';
+        document.getElementById('editPoints').value = data.points || 0;
+        
+        // FIXED: Better track handling
+        const track = (data.tracks && data.tracks.length > 0) ? data.tracks[0] : 'Systems & Fabrication';
+        document.getElementById('editTrack').value = track;
+        
+        // Set join date
+        if (data.joinDate) {
             try {
-                const doc = await db.collection('members').doc(uid).get();
-                if (!doc.exists) {
-                    alert('Member not found!');
-                    return;
-                }
-                
-                const data = doc.data();
-                
-                // Set basic info
-                document.getElementById('editMemberId').value = uid;
-                document.getElementById('editMemberNameDisplay').textContent = 'Editing: ' + (data.name || 'Member');
-                document.getElementById('editName').value = data.name || '';
-                document.getElementById('editEmail').value = data.email || '';
-                document.getElementById('editRank').value = data.rank || 'F';
-                document.getElementById('editPoints').value = data.points || 0;
-                document.getElementById('editTrack').value = (data.tracks && data.tracks[0]) || 'Systems & Fabrication';
-                
-                // Set join date
-                if (data.joinDate) {
-                    const date = new Date(data.joinDate);
+                const date = new Date(data.joinDate);
+                if (!isNaN(date.getTime())) {
                     document.getElementById('editJoinDate').value = date.toISOString().slice(0, 16);
                 } else {
                     document.getElementById('editJoinDate').value = '';
                 }
-                
-                // Set modules
-                editModules = Array.isArray(data.modules) ? [...data.modules] : [];
-                renderModulesList();
-                
-                // Set projects
-                editProjects = Array.isArray(data.projects) ? [...data.projects] : [];
-                renderProjectsList();
-                
-                // Clear messages
-                document.getElementById('editMessage').className = 'success';
-                document.getElementById('editError').className = 'error';
-                document.getElementById('editMessage').textContent = '';
-                document.getElementById('editError').textContent = '';
-                
-                // Show modal
-                document.getElementById('editModal').classList.add('show');
-                
-            } catch (error) {
-                alert('Error loading member data: ' + error.message);
+            } catch (e) {
+                document.getElementById('editJoinDate').value = '';
             }
+        } else {
+            document.getElementById('editJoinDate').value = '';
         }
-
+        
+        // Set modules - FIXED: ensure it's an array
+        editModules = Array.isArray(data.modules) ? [...data.modules] : [];
+        renderModulesList();
+        
+        // Set projects - FIXED: ensure it's an array
+        editProjects = Array.isArray(data.projects) ? [...data.projects] : [];
+        renderProjectsList();
+        
+        // Clear messages
+        document.getElementById('editMessage').className = 'success';
+        document.getElementById('editError').className = 'error';
+        document.getElementById('editMessage').textContent = '';
+        document.getElementById('editError').textContent = '';
+        
+        // Show modal
+        document.getElementById('editModal').classList.add('show');
+        
+    } catch (error) {
+        console.error('Error loading member data:', error);
+        alert('Error loading member data: ' + error.message);
+    }
+}
         // ===== CLOSE EDIT MODAL =====
         function closeEditModal() {
             document.getElementById('editModal').classList.remove('show');
@@ -924,68 +936,78 @@
         }
 
         // ===== SAVE EDITED MEMBER =====
-        document.getElementById('editMemberForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const uid = document.getElementById('editMemberId').value;
-            const name = document.getElementById('editName').value.trim();
-            const email = document.getElementById('editEmail').value.trim();
-            const rank = document.getElementById('editRank').value;
-            const points = parseInt(document.getElementById('editPoints').value) || 0;
-            const track = document.getElementById('editTrack').value;
-            const joinDate = document.getElementById('editJoinDate').value;
-            
-            const successDiv = document.getElementById('editMessage');
-            const errorDiv = document.getElementById('editError');
-            
-            if (!name || !email) {
-                errorDiv.textContent = '❌ Name and Email are required.';
-                errorDiv.className = 'error show';
-                successDiv.className = 'success';
-                return;
-            }
-            
+document.getElementById('editMemberForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const uid = document.getElementById('editMemberId').value;
+    const name = document.getElementById('editName').value.trim();
+    const email = document.getElementById('editEmail').value.trim();
+    const rank = document.getElementById('editRank').value;
+    const points = parseInt(document.getElementById('editPoints').value) || 0;
+    const track = document.getElementById('editTrack').value;
+    const joinDate = document.getElementById('editJoinDate').value;
+    
+    const successDiv = document.getElementById('editMessage');
+    const errorDiv = document.getElementById('editError');
+    
+    if (!name || !email) {
+        errorDiv.textContent = '❌ Name and Email are required.';
+        errorDiv.className = 'error show';
+        successDiv.className = 'success';
+        return;
+    }
+    
+    try {
+        successDiv.className = 'success';
+        successDiv.textContent = '⏳ Saving changes...';
+        errorDiv.className = 'error';
+        
+        // Prepare update data - FIXED: better structure
+        const updateData = {
+            name: name,
+            email: email,
+            rank: rank,
+            points: points,
+            tracks: [track],
+            modules: editModules || [],
+            projects: editProjects || []
+        };
+        
+        // Add join date if provided and valid
+        if (joinDate) {
             try {
-                successDiv.className = 'success';
-                successDiv.textContent = '⏳ Saving changes...';
-                errorDiv.className = 'error';
-                
-                // Prepare update data
-                const updateData = {
-                    name: name,
-                    email: email,
-                    rank: rank,
-                    points: points,
-                    tracks: [track],
-                    modules: editModules,
-                    projects: editProjects
-                };
-                
-                // Add join date if provided
-                if (joinDate) {
-                    updateData.joinDate = new Date(joinDate).toISOString();
+                const date = new Date(joinDate);
+                if (!isNaN(date.getTime())) {
+                    updateData.joinDate = date.toISOString();
                 }
-                
-                // Update in Firestore
-                await db.collection('members').doc(uid).update(updateData);
-                
-                successDiv.textContent = '✅ All changes saved successfully!';
-                successDiv.className = 'success show';
-                errorDiv.className = 'error';
-                
-                // Reload member list
-                loadMembers();
-                
-                setTimeout(() => {
-                    closeEditModal();
-                }, 1500);
-                
-            } catch (error) {
-                errorDiv.textContent = '❌ ' + error.message;
-                errorDiv.className = 'error show';
-                successDiv.className = 'success';
+            } catch (e) {
+                console.warn('Invalid date format, skipping joinDate');
             }
-        });
+        }
+        
+        console.log('📝 Updating member with data:', updateData); // DEBUG
+        
+        // Update in Firestore
+        await db.collection('members').doc(uid).update(updateData);
+        
+        successDiv.textContent = '✅ All changes saved successfully!';
+        successDiv.className = 'success show';
+        errorDiv.className = 'error';
+        
+        // Reload member list
+        loadMembers();
+        
+        setTimeout(() => {
+            closeEditModal();
+        }, 1500);
+        
+    } catch (error) {
+        console.error('Error saving member:', error);
+        errorDiv.textContent = '❌ ' + error.message;
+        errorDiv.className = 'error show';
+        successDiv.className = 'success';
+    }
+});
 
         // ===== DELETE MEMBER =====
         async function deleteMember(uid) {
@@ -1000,6 +1022,58 @@
             }
         }
 
+        // ===== LOAD MEMBERS with better error handling =====
+async function loadMembers() {
+    const container = document.getElementById('membersContainer');
+    container.innerHTML = '<p style="color: var(--gray-500);">Loading members...</p>';
+    
+    try {
+        const snapshot = await db.collection('members').orderBy('name').get();
+        if (snapshot.empty) {
+            container.innerHTML = '<p style="color: var(--gray-500);">No members yet. Add your first member!</p>';
+            return;
+        }
+        
+        let html = '';
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            // FIXED: Better fallbacks for all fields
+            const name = data.name || 'No Name';
+            const email = data.email || 'No Email';
+            const rank = data.rank || 'F';
+            const points = data.points !== undefined ? data.points : 0;
+            const modules = Array.isArray(data.modules) ? data.modules.length : 0;
+            const rankClass = 'rank-' + rank;
+            
+            html += `
+                <div class="member-item">
+                    <div class="member-info">
+                        <span class="member-name">${name}</span>
+                        <span class="member-email">${email}</span>
+                        <span class="member-rank ${rankClass}">${rank}</span>
+                        <span class="member-points">${points} pts</span>
+                        <span style="font-size:0.7rem; color:var(--gray-500);">
+                            ${modules} modules
+                        </span>
+                    </div>
+                    <div class="member-actions">
+                        <button class="action-btn edit-btn" onclick="openEditModal('${doc.id}')">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="action-btn delete-btn" onclick="deleteMember('${doc.id}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        
+    } catch (error) {
+        console.error('Error loading members:', error);
+        container.innerHTML = '<p style="color: #721c24;">Error loading members: ' + error.message + '</p>';
+    }
+}
         // ===== ENTER KEY SUPPORT =====
         document.getElementById('moduleInput').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
