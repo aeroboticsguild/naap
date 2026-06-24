@@ -465,6 +465,9 @@ firebase.auth().onAuthStateChanged((user) => {
         // 🆕 Load training modules
         setTimeout(loadTrainingModules, 1000);
         
+        // 🆕 Initialize training modules
+        setTimeout(initializeTrainingModules, 1500);
+        
     } else {
         // User is signed out
         if (loginContainer) loginContainer.style.display = 'block';
@@ -885,24 +888,14 @@ if (requestForm) {
             const requestRef = await firebase.firestore().collection('subjectRequests').add(requestData);
             console.log('📝 Request created with ID:', requestRef.id);
             
-            // Since we can't directly upload to Google Drive from Firebase,
-            // we'll store the file in Firebase Storage and provide a download link
-            
-            // For now, we'll save the request with a note about the file
-            // The admin will need to manually upload to Google Drive
-            
-            // Update the request with a message about the file
+            // Update the request with file info
             await firebase.firestore().collection('subjectRequests').doc(requestRef.id).update({
                 fileNote: `File "${file.name}" (${(file.size / 1024).toFixed(1)} KB) was submitted. Please check Firebase Storage or contact the member for the file.`,
                 fileName: file.name,
                 fileSize: file.size
             });
             
-            // Store file in Firebase Storage (optional - you can skip this if you want)
-            // This requires Firebase Storage to be set up
-            // Uncomment the code below if you have Firebase Storage configured
-            
-
+            // Store file in Firebase Storage
             const storageRef = firebase.storage().ref();
             const fileRef = storageRef.child(`subject_requests/${requestRef.id}/${file.name}`);
             await fileRef.put(file);
@@ -910,7 +903,6 @@ if (requestForm) {
             await firebase.firestore().collection('subjectRequests').doc(requestRef.id).update({
                 fileUrl: downloadUrl
             });
-
             
             if (message) {
                 message.textContent = `✅ Request for "${subjectTitle}" submitted successfully! The admin will review it.`;
@@ -1227,7 +1219,6 @@ function initializeTrainingModules() {
         }
     }
 }
-
 
 // Also load when the training tab is clicked
 document.addEventListener('click', function(e) {
