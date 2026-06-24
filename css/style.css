@@ -2803,7 +2803,8 @@ img {
 .loading-text {
     color: var(--gray-500);
     text-align: center;
-    padding: 1rem;
+    padding: 2rem;
+    font-size: 1rem;
 }
 
 .no-reviewers {
@@ -3174,7 +3175,8 @@ img {
 .loading-text {
     color: var(--gray-500);
     text-align: center;
-    padding: 1rem;
+    padding: 2rem;
+    font-size: 1rem;
 }
 
 .empty-text {
