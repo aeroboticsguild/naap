@@ -277,8 +277,9 @@ firebase.auth().onAuthStateChanged((user) => {
         document.getElementById('userName').textContent = user.displayName || 'Member';
         document.getElementById('userEmail').textContent = user.email;
         
-        // Load member data from Firestore
+        // 🔥 LOAD MEMBER DATA FROM FIRESTORE
         loadMemberData(user.uid);
+        
     } else {
         // User is signed out
         document.getElementById('loginContainer').style.display = 'block';
