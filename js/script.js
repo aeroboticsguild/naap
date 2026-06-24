@@ -720,3 +720,283 @@ if (changePasswordForm) {
         }
     });
 }
+
+// ============================================================
+// ===== MEMBER TABS =====
+// ============================================================
+
+// Tab switching
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        // Remove active class from all tabs
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        
+        // Add active class to clicked tab
+        this.classList.add('active');
+        
+        // Show corresponding content
+        const tabId = this.getAttribute('data-tab');
+        const content = document.getElementById('tab-' + tabId);
+        if (content) content.classList.add('active');
+    });
+});
+
+// ============================================================
+// ===== REVIEWERS MANAGEMENT =====
+// ============================================================
+
+// Load reviewers from Firestore
+async function loadReviewers() {
+    const container = document.getElementById('reviewersList');
+    if (!container) return;
+    
+    container.innerHTML = '<p class="loading-text">Loading reviewers...</p>';
+    
+    try {
+        const snapshot = await firebase.firestore()
+            .collection('reviewers')
+            .orderBy('subjectCode')
+            .get();
+        
+        if (snapshot.empty) {
+            container.innerHTML = '<p class="no-reviewers">📚 No reviewers available yet. Request one below!</p>';
+            return;
+        }
+        
+        let html = '';
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            html += `
+                <a href="${data.link || '#'}" target="_blank" class="reviewer-card">
+                    <i class="fas fa-file-pdf"></i>
+                    <span class="subject-code">${data.subjectCode || 'N/A'}</span>
+                    <span class="subject-title">${data.subjectTitle || 'Untitled'}</span>
+                    <span class="subject-action"><i class="fas fa-external-link-alt"></i> View Reviewer</span>
+                </a>
+            `;
+        });
+        container.innerHTML = html;
+        
+    } catch (error) {
+        console.error('Error loading reviewers:', error);
+        container.innerHTML = '<p class="no-reviewers">❌ Error loading reviewers. Please try again later.</p>';
+    }
+}
+
+// Load reviewers when knowledge base tab is shown
+document.addEventListener('click', function(e) {
+    const target = e.target.closest('.tab-btn');
+    if (target && target.getAttribute('data-tab') === 'knowledge') {
+        loadReviewers();
+    }
+});
+
+// Also load when dashboard is shown (if knowledge base is the active tab)
+// Check if knowledge tab is active on page load
+setTimeout(() => {
+    const activeTab = document.querySelector('.tab-btn.active');
+    if (activeTab && activeTab.getAttribute('data-tab') === 'knowledge') {
+        loadReviewers();
+    }
+}, 1000);
+
+// ============================================================
+// ===== SUBJECT REQUEST =====
+// ============================================================
+
+// Get the request form
+const requestForm = document.getElementById('requestSubjectForm');
+if (requestForm) {
+    requestForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const subjectCode = document.getElementById('subjectCode')?.value?.trim();
+        const subjectTitle = document.getElementById('subjectTitle')?.value?.trim();
+        const description = document.getElementById('subjectDescription')?.value?.trim() || '';
+        const fileInput = document.getElementById('subjectFile');
+        const message = document.getElementById('requestMessage');
+        
+        // Validate inputs
+        if (!subjectCode || !subjectTitle) {
+            if (message) {
+                message.textContent = '❌ Please enter subject code and title.';
+                message.className = 'auth-message error';
+                message.style.display = 'block';
+            }
+            return;
+        }
+        
+        if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+            if (message) {
+                message.textContent = '❌ Please upload a reference file.';
+                message.className = 'auth-message error';
+                message.style.display = 'block';
+            }
+            return;
+        }
+        
+        const file = fileInput.files[0];
+        const maxSize = 10 * 1024 * 1024; // 10MB
+        
+        if (file.size > maxSize) {
+            if (message) {
+                message.textContent = '❌ File is too large. Maximum size is 10MB.';
+                message.className = 'auth-message error';
+                message.style.display = 'block';
+            }
+            return;
+        }
+        
+        try {
+            if (message) {
+                message.textContent = '⏳ Submitting request...';
+                message.className = 'auth-message loading';
+                message.style.display = 'block';
+            }
+            
+            // Get current user
+            const user = firebase.auth().currentUser;
+            if (!user) {
+                throw new Error('You must be logged in to submit a request.');
+            }
+            
+            // Get user data
+            const userDoc = await firebase.firestore().collection('members').doc(user.uid).get();
+            const userData = userDoc.data() || {};
+            const userName = userData.name || user.displayName || 'Anonymous';
+            
+            // Save request to Firestore first
+            const requestData = {
+                subjectCode: subjectCode,
+                subjectTitle: subjectTitle,
+                description: description,
+                requestedBy: userName,
+                requestedByUid: user.uid,
+                requestedByEmail: user.email,
+                status: 'pending',
+                fileUrl: 'Uploading...',
+                createdAt: new Date().toISOString()
+            };
+            
+            const requestRef = await firebase.firestore().collection('subjectRequests').add(requestData);
+            console.log('📝 Request created with ID:', requestRef.id);
+            
+            // Since we can't directly upload to Google Drive from Firebase,
+            // we'll store the file in Firebase Storage and provide a download link
+            
+            // For now, we'll save the request with a note about the file
+            // The admin will need to manually upload to Google Drive
+            
+            // Update the request with a message about the file
+            await firebase.firestore().collection('subjectRequests').doc(requestRef.id).update({
+                fileNote: `File "${file.name}" (${(file.size / 1024).toFixed(1)} KB) was submitted. Please check Firebase Storage or contact the member for the file.`,
+                fileName: file.name,
+                fileSize: file.size
+            });
+            
+            // Store file in Firebase Storage (optional - you can skip this if you want)
+            // This requires Firebase Storage to be set up
+            // Uncomment the code below if you have Firebase Storage configured
+            
+            /*
+            const storageRef = firebase.storage().ref();
+            const fileRef = storageRef.child(`subject_requests/${requestRef.id}/${file.name}`);
+            await fileRef.put(file);
+            const downloadUrl = await fileRef.getDownloadURL();
+            await firebase.firestore().collection('subjectRequests').doc(requestRef.id).update({
+                fileUrl: downloadUrl
+            });
+            */
+            
+            if (message) {
+                message.textContent = `✅ Request for "${subjectTitle}" submitted successfully! The admin will review it.`;
+                message.className = 'auth-message success';
+            }
+            
+            // Clear form
+            document.getElementById('subjectCode').value = '';
+            document.getElementById('subjectTitle').value = '';
+            document.getElementById('subjectDescription').value = '';
+            fileInput.value = '';
+            
+            // Show success notification
+            showNotification('✅ Subject request submitted! Admin will review it soon.');
+            
+        } catch (error) {
+            console.error('Error submitting request:', error);
+            if (message) {
+                message.textContent = '❌ ' + error.message;
+                message.className = 'auth-message error';
+                message.style.display = 'block';
+            }
+        }
+    });
+}
+
+// ============================================================
+// ===== NOTIFICATION HELPER =====
+// ============================================================
+
+function showNotification(message) {
+    // Check if notification element exists, create if not
+    let notification = document.querySelector('.custom-notification');
+    if (!notification) {
+        notification = document.createElement('div');
+        notification.className = 'custom-notification';
+        document.body.appendChild(notification);
+        
+        // Add styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .custom-notification {
+                position: fixed;
+                bottom: 2rem;
+                left: 50%;
+                transform: translateX(-50%) translateY(100px);
+                background: var(--primary);
+                color: var(--white);
+                padding: 1rem 2rem;
+                border-radius: var(--radius-sm);
+                box-shadow: var(--shadow-lg);
+                z-index: 9999;
+                opacity: 0;
+                transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                font-weight: 500;
+                max-width: 90%;
+                text-align: center;
+                border-left: 4px solid var(--gold);
+            }
+            .custom-notification.show {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+            .custom-notification.success {
+                border-left-color: #28a745;
+            }
+            .custom-notification.error {
+                border-left-color: #dc3545;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    notification.textContent = message;
+    notification.className = 'custom-notification show';
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+    }, 5000);
+}
+
+// ============================================================
+// ===== INITIALIZE =====
+// ============================================================
+
+// Load reviewers if knowledge tab is active on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const activeTab = document.querySelector('.tab-btn.active');
+    if (activeTab && activeTab.getAttribute('data-tab') === 'knowledge') {
+        loadReviewers();
+    }
+});
