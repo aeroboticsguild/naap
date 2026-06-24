@@ -297,6 +297,15 @@
             padding: 0.7rem 1.5rem;
         }
 
+        .admin-tool-buttons .btn.active {
+            background: var(--gold);
+            color: var(--white);
+        }
+
+        .admin-tool-buttons .btn.active:hover {
+            background: var(--gold-dark);
+        }
+
         .pending-requests-container {
             margin-top: 1.5rem;
         }
@@ -346,6 +355,194 @@
             padding: 0.3rem 0.8rem;
             font-size: 0.8rem;
             width: auto;
+        }
+
+        /* ===== MANAGEMENT CONTAINERS ===== */
+        .management-container {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: var(--gray-50);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--gray-200);
+        }
+
+        .management-container h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .management-container h5 {
+            color: var(--primary);
+            margin: 1rem 0 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .management-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 0.8rem;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 0.5rem 0;
+        }
+
+        .management-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            background: var(--white);
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .management-item:hover {
+            border-color: var(--gold);
+        }
+
+        .management-item .item-info {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .management-item .item-title {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .management-item .item-sub {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+        }
+
+        .management-item .item-badge {
+            padding: 0.1rem 0.6rem;
+            border-radius: 30px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            background: var(--gold);
+            color: var(--white);
+        }
+
+        .management-item .item-badge.resource {
+            background: #3b82f6;
+        }
+
+        .management-item .item-actions {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .management-item .btn-icon {
+            padding: 0.3rem 0.6rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            background: var(--gray-200);
+            color: var(--gray-700);
+        }
+
+        .management-item .btn-icon:hover {
+            transform: scale(1.05);
+        }
+
+        .management-item .btn-icon.delete-btn {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .management-item .btn-icon.delete-btn:hover {
+            background: #f5c6cb;
+        }
+
+        .management-item .btn-icon.view-btn {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .management-item .btn-icon.view-btn:hover {
+            background: #b8d4f0;
+        }
+
+        /* Add Training Form */
+        .add-training-section {
+            background: var(--white);
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--gray-200);
+            margin-bottom: 1.5rem;
+        }
+
+        .training-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .training-form .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+        }
+
+        .training-form .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .training-form label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--primary);
+        }
+
+        .training-form input,
+        .training-form select,
+        .training-form textarea {
+            padding: 0.6rem 0.8rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .training-form input:focus,
+        .training-form select:focus,
+        .training-form textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(182, 139, 64, 0.1);
+        }
+
+        .training-form .btn-small {
+            width: auto;
+            padding: 0.5rem 1.5rem;
+            align-self: flex-start;
+        }
+
+        .training-list-section {
+            margin-top: 1rem;
+        }
+
+        .loading-text {
+            color: var(--gray-500);
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .empty-text {
+            color: var(--gray-500);
+            text-align: center;
+            padding: 1rem;
+            grid-column: 1 / -1;
         }
         
         /* ===== EDIT MODAL ===== */
@@ -489,6 +686,24 @@
             .admin-tool-buttons .btn {
                 width: 100%;
             }
+            .management-list {
+                grid-template-columns: 1fr;
+                max-height: 300px;
+            }
+            .training-form .form-row {
+                grid-template-columns: 1fr;
+            }
+            .management-item {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            .management-item .item-actions {
+                justify-content: center;
+            }
+            .training-form .btn-small {
+                align-self: stretch;
+            }
         }
     </style>
 </head>
@@ -588,83 +803,82 @@
                     </div>
                 </div>
 
-              <!-- ============================================ -->
-<!-- ===== ADMIN TOOLS SECTION ===== -->
-<!-- ============================================ -->
-<div class="admin-tool-section">
-    <h3><i class="fas fa-tools"></i> Admin Tools</h3>
-    <div class="admin-tool-buttons">
-        <button onclick="addReviewer()" class="btn btn-primary">
-            <i class="fas fa-plus-circle"></i> Add Reviewer
-        </button>
-        <button onclick="viewPendingRequests()" class="btn btn-secondary">
-            <i class="fas fa-list"></i> View Pending Requests
-        </button>
-        <button onclick="toggleReviewerManagement()" class="btn btn-secondary">
-            <i class="fas fa-book"></i> Manage Reviewers
-        </button>
-        <button onclick="toggleTrainingManagement()" class="btn btn-secondary">
-            <i class="fas fa-graduation-cap"></i> Manage Training
-        </button>
-    </div>
-
-    <!-- Reviewer Management -->
-    <div id="reviewerManagementContainer" class="management-container" style="display:none;">
-        <h4><i class="fas fa-book"></i> Manage Reviewers</h4>
-        <div id="reviewersListContainer" class="management-list">
-            <p style="color: var(--gray-500);">Loading reviewers...</p>
-        </div>
-    </div>
-
-    <!-- Training Management -->
-    <div id="trainingManagementContainer" class="management-container" style="display:none;">
-        <h4><i class="fas fa-graduation-cap"></i> Manage Training Modules</h4>
-        
-        <!-- Add Training Module -->
-        <div class="add-training-section">
-            <h5>Add New Training Module</h5>
-            <form id="addTrainingForm" class="training-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="trainingTitle">Title</label>
-                        <input type="text" id="trainingTitle" placeholder="e.g., Arduino Basics" required />
+                <!-- ============================================ -->
+                <!-- ===== ADMIN TOOLS SECTION ===== -->
+                <!-- ============================================ -->
+                <div class="admin-tool-section">
+                    <h3><i class="fas fa-tools"></i> Admin Tools</h3>
+                    <div class="admin-tool-buttons">
+                        <button onclick="addReviewer()" class="btn btn-primary">
+                            <i class="fas fa-plus-circle"></i> Add Reviewer
+                        </button>
+                        <button onclick="viewPendingRequests()" class="btn btn-secondary">
+                            <i class="fas fa-list"></i> View Pending Requests
+                        </button>
+                        <button onclick="toggleReviewerManagement()" class="btn btn-secondary">
+                            <i class="fas fa-book"></i> Manage Reviewers
+                        </button>
+                        <button onclick="toggleTrainingManagement()" class="btn btn-secondary">
+                            <i class="fas fa-graduation-cap"></i> Manage Training
+                        </button>
                     </div>
-                    <div class="form-group">
-                        <label for="trainingType">Type</label>
-                        <select id="trainingType" required>
-                            <option value="video">Video</option>
-                            <option value="resource">Resource Link</option>
-                        </select>
+
+                    <!-- Reviewer Management -->
+                    <div id="reviewerManagementContainer" class="management-container" style="display:none;">
+                        <h4><i class="fas fa-book"></i> Manage Reviewers</h4>
+                        <div id="reviewersListContainer" class="management-list">
+                            <p class="loading-text">Loading reviewers...</p>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="trainingUrl">URL</label>
-                    <input type="url" id="trainingUrl" placeholder="https://youtube.com/embed/..." required />
-                </div>
-                <div class="form-group">
-                    <label for="trainingDescription">Description</label>
-                    <textarea id="trainingDescription" placeholder="Brief description of the module..." rows="2"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary btn-small">
-                    <i class="fas fa-plus"></i> Add Training Module
-                </button>
-                <div id="trainingMessage" class="success"></div>
-                <div id="trainingError" class="error"></div>
-            </form>
-        </div>
 
-        <!-- Training Modules List -->
-        <div class="training-list-section">
-            <h5>Current Training Modules</h5>
-            <div id="trainingModulesContainer" class="management-list">
-                <p style="color: var(--gray-500);">Loading training modules...</p>
-            </div>
-        </div>
-    </div>
+                    <!-- Training Management -->
+                    <div id="trainingManagementContainer" class="management-container" style="display:none;">
+                        <h4><i class="fas fa-graduation-cap"></i> Manage Training Modules</h4>
+                        
+                        <!-- Add Training Module -->
+                        <div class="add-training-section">
+                            <h5>Add New Training Module</h5>
+                            <form id="addTrainingForm" class="training-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="trainingTitle">Title</label>
+                                        <input type="text" id="trainingTitle" placeholder="e.g., Arduino Basics" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="trainingType">Type</label>
+                                        <select id="trainingType" required>
+                                            <option value="video">Video</option>
+                                            <option value="resource">Resource Link</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="trainingUrl">URL</label>
+                                    <input type="url" id="trainingUrl" placeholder="https://youtube.com/embed/..." required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="trainingDescription">Description</label>
+                                    <textarea id="trainingDescription" placeholder="Brief description of the module..." rows="2"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-small">
+                                    <i class="fas fa-plus"></i> Add Training Module
+                                </button>
+                                <div id="trainingMessage" class="success"></div>
+                                <div id="trainingError" class="error"></div>
+                            </form>
+                        </div>
 
-    <div id="pendingRequestsContainer" class="pending-requests-container"></div>
-</div>
-<!-- ===== END ADMIN TOOLS SECTION ===== -->
+                        <!-- Training Modules List -->
+                        <div class="training-list-section">
+                            <h5>Current Training Modules</h5>
+                            <div id="trainingModulesContainer" class="management-list">
+                                <p class="loading-text">Loading training modules...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="pendingRequestsContainer" class="pending-requests-container"></div>
+                </div>
                 <!-- ===== END ADMIN TOOLS SECTION ===== -->
                 <!-- ============================================ -->
 
@@ -1252,6 +1466,7 @@
                 
                 snapshot.forEach(doc => {
                     const data = doc.data();
+                    const hasFile = data.fileName && data.fileName !== '';
                     html += `
                         <div class="request-item">
                             <div class="request-header">
@@ -1265,8 +1480,11 @@
                                 Requested by: ${data.requestedBy} (${data.requestedByEmail})
                             </div>
                             ${data.description ? `<div class="request-details">📝 ${data.description}</div>` : ''}
-                            ${data.fileName ? `<div class="request-details">📎 ${data.fileName} (${(data.fileSize / 1024).toFixed(1)} KB)</div>` : ''}
+                            ${hasFile ? `<div class="request-details">📎 ${data.fileName} (${(data.fileSize / 1024).toFixed(1)} KB)</div>` : ''}
                             <div class="request-actions">
+                                ${hasFile ? `<button onclick="downloadRequestFile('${doc.id}')" class="btn btn-small btn-primary">
+                                    <i class="fas fa-download"></i> Download File
+                                </button>` : ''}
                                 <button onclick="approveRequest('${doc.id}')" class="btn btn-small btn-success">
                                     <i class="fas fa-check"></i> Approve
                                 </button>
@@ -1352,6 +1570,7 @@
         Email: ${data.requestedByEmail}
         Description: ${data.description || 'N/A'}
         File: ${data.fileName || 'N/A'}
+        File Size: ${data.fileSize ? (data.fileSize / 1024).toFixed(1) + ' KB' : 'N/A'}
         Created: ${new Date(data.createdAt).toLocaleString()}
         Admin Note: ${data.adminNote || 'None'}
                 `;
@@ -1360,6 +1579,367 @@
                 
             } catch (error) {
                 console.error('Error viewing request:', error);
+                alert('❌ Error: ' + error.message);
+            }
+        }
+
+        // ============================================================
+        // ===== ADMIN TOOLS: TOGGLE MANAGEMENT PANELS =====
+        // ============================================================
+
+        let reviewerManagementVisible = false;
+        let trainingManagementVisible = false;
+
+        function toggleReviewerManagement() {
+            const container = document.getElementById('reviewerManagementContainer');
+            const btns = document.querySelectorAll('.admin-tool-buttons .btn-secondary');
+            const btn = btns[2]; // Manage Reviewers button
+            
+            reviewerManagementVisible = !reviewerManagementVisible;
+            container.style.display = reviewerManagementVisible ? 'block' : 'none';
+            
+            if (reviewerManagementVisible) {
+                btn.classList.add('active');
+                loadReviewersList();
+            } else {
+                btn.classList.remove('active');
+            }
+        }
+
+        function toggleTrainingManagement() {
+            const container = document.getElementById('trainingManagementContainer');
+            const btns = document.querySelectorAll('.admin-tool-buttons .btn-secondary');
+            const btn = btns[3]; // Manage Training button
+            
+            trainingManagementVisible = !trainingManagementVisible;
+            container.style.display = trainingManagementVisible ? 'block' : 'none';
+            
+            if (trainingManagementVisible) {
+                btn.classList.add('active');
+                loadTrainingModulesList();
+            } else {
+                btn.classList.remove('active');
+            }
+        }
+
+        // ============================================================
+        // ===== ADMIN TOOLS: MANAGE REVIEWERS =====
+        // ============================================================
+
+        async function loadReviewersList() {
+            const container = document.getElementById('reviewersListContainer');
+            if (!container) return;
+            
+            container.innerHTML = '<p class="loading-text">Loading reviewers...</p>';
+            
+            try {
+                const snapshot = await db.collection('reviewers')
+                    .orderBy('subjectCode')
+                    .get();
+                
+                if (snapshot.empty) {
+                    container.innerHTML = '<p class="empty-text">No reviewers available. Add one using the "Add Reviewer" button.</p>';
+                    return;
+                }
+                
+                let html = '';
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const id = doc.id;
+                    html += `
+                        <div class="management-item">
+                            <div class="item-info">
+                                <div class="item-title">${data.subjectCode} - ${data.subjectTitle}</div>
+                                <div class="item-sub">${data.description || 'No description'}</div>
+                                <div style="font-size:0.75rem; color:var(--gray-400); margin-top:0.2rem;">
+                                    Added: ${data.createdAt ? new Date(data.createdAt).toLocaleDateString() : 'Unknown'}
+                                </div>
+                            </div>
+                            <div class="item-actions">
+                                <button onclick="viewReviewer('${id}')" class="btn-icon view-btn" title="View Link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </button>
+                                <button onclick="deleteReviewer('${id}')" class="btn-icon delete-btn" title="Delete Reviewer">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+                
+            } catch (error) {
+                console.error('Error loading reviewers:', error);
+                container.innerHTML = '<p class="empty-text" style="color: #721c24;">❌ Error loading reviewers: ' + error.message + '</p>';
+            }
+        }
+
+        function viewReviewer(docId) {
+            db.collection('reviewers').doc(docId).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        if (data.link) {
+                            window.open(data.link, '_blank');
+                        } else {
+                            alert('No link available for this reviewer.');
+                        }
+                    } else {
+                        alert('Reviewer not found.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error viewing reviewer:', error);
+                    alert('Error: ' + error.message);
+                });
+        }
+
+        async function deleteReviewer(docId) {
+            if (!confirm('⚠️ Are you sure you want to delete this reviewer?\n\nThis action cannot be undone!')) {
+                return;
+            }
+            
+            try {
+                const doc = await db.collection('reviewers').doc(docId).get();
+                if (!doc.exists) {
+                    alert('Reviewer not found!');
+                    return;
+                }
+                
+                const data = doc.data();
+                const confirmMsg = `Delete: ${data.subjectCode} - ${data.subjectTitle}?`;
+                if (!confirm(confirmMsg)) return;
+                
+                await db.collection('reviewers').doc(docId).delete();
+                alert('✅ Reviewer deleted successfully!');
+                loadReviewersList(); // Refresh the list
+                
+            } catch (error) {
+                console.error('Error deleting reviewer:', error);
+                alert('❌ Error deleting reviewer: ' + error.message);
+            }
+        }
+
+        // ============================================================
+        // ===== ADMIN TOOLS: MANAGE TRAINING MODULES =====
+        // ============================================================
+
+        async function loadTrainingModulesList() {
+            const container = document.getElementById('trainingModulesContainer');
+            if (!container) return;
+            
+            container.innerHTML = '<p class="loading-text">Loading training modules...</p>';
+            
+            try {
+                const snapshot = await db.collection('trainingModules')
+                    .orderBy('createdAt', 'desc')
+                    .get();
+                
+                if (snapshot.empty) {
+                    container.innerHTML = '<p class="empty-text">No training modules available. Add one using the form above.</p>';
+                    return;
+                }
+                
+                let html = '';
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const id = doc.id;
+                    const typeIcon = data.type === 'video' ? '🎬' : '🔗';
+                    const typeClass = data.type === 'video' ? '' : 'resource';
+                    
+                    html += `
+                        <div class="management-item">
+                            <div class="item-info">
+                                <div class="item-title">${typeIcon} ${data.title || 'Untitled'}</div>
+                                <div class="item-sub">${data.description || 'No description'}</div>
+                                <div style="display: flex; gap: 0.5rem; margin-top: 0.2rem; flex-wrap: wrap;">
+                                    <span class="item-badge ${typeClass}">${data.type || 'video'}</span>
+                                    <span style="font-size:0.7rem; color:var(--gray-400);">
+                                        ${data.createdAt ? new Date(data.createdAt).toLocaleDateString() : 'Unknown'}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="item-actions">
+                                <button onclick="viewTrainingModule('${id}')" class="btn-icon view-btn" title="View">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </button>
+                                <button onclick="deleteTrainingModule('${id}')" class="btn-icon delete-btn" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+                
+            } catch (error) {
+                console.error('Error loading training modules:', error);
+                container.innerHTML = '<p class="empty-text" style="color: #721c24;">❌ Error loading modules: ' + error.message + '</p>';
+            }
+        }
+
+        function viewTrainingModule(docId) {
+            db.collection('trainingModules').doc(docId).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        if (data.url) {
+                            window.open(data.url, '_blank');
+                        } else {
+                            alert('No URL available for this module.');
+                        }
+                    } else {
+                        alert('Module not found.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error viewing module:', error);
+                    alert('Error: ' + error.message);
+                });
+        }
+
+        async function deleteTrainingModule(docId) {
+            if (!confirm('⚠️ Are you sure you want to delete this training module?\n\nThis action cannot be undone!')) {
+                return;
+            }
+            
+            try {
+                const doc = await db.collection('trainingModules').doc(docId).get();
+                if (!doc.exists) {
+                    alert('Module not found!');
+                    return;
+                }
+                
+                const data = doc.data();
+                const confirmMsg = `Delete: ${data.title || 'Untitled Module'}?`;
+                if (!confirm(confirmMsg)) return;
+                
+                await db.collection('trainingModules').doc(docId).delete();
+                alert('✅ Training module deleted successfully!');
+                loadTrainingModulesList(); // Refresh the list
+                
+            } catch (error) {
+                console.error('Error deleting training module:', error);
+                alert('❌ Error deleting module: ' + error.message);
+            }
+        }
+
+        // ============================================================
+        // ===== ADMIN TOOLS: ADD TRAINING MODULE =====
+        // ============================================================
+
+        document.getElementById('addTrainingForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const title = document.getElementById('trainingTitle').value.trim();
+            const type = document.getElementById('trainingType').value;
+            const url = document.getElementById('trainingUrl').value.trim();
+            const description = document.getElementById('trainingDescription').value.trim();
+            
+            const successDiv = document.getElementById('trainingMessage');
+            const errorDiv = document.getElementById('trainingError');
+            
+            if (!title || !url) {
+                errorDiv.textContent = '❌ Title and URL are required.';
+                errorDiv.className = 'error show';
+                successDiv.className = 'success';
+                return;
+            }
+            
+            try {
+                successDiv.className = 'success';
+                successDiv.textContent = '⏳ Adding training module...';
+                errorDiv.className = 'error';
+                
+                // Validate URL format
+                try {
+                    new URL(url);
+                } catch (urlError) {
+                    errorDiv.textContent = '❌ Please enter a valid URL (including https://)';
+                    errorDiv.className = 'error show';
+                    successDiv.className = 'success';
+                    return;
+                }
+                
+                // Save to Firestore
+                await db.collection('trainingModules').add({
+                    title: title,
+                    type: type,
+                    url: url,
+                    description: description || '',
+                    createdAt: new Date().toISOString(),
+                    createdBy: firebase.auth().currentUser?.uid || 'admin',
+                    isActive: true
+                });
+                
+                successDiv.textContent = '✅ Training module "' + title + '" added successfully!';
+                successDiv.className = 'success show';
+                errorDiv.className = 'error';
+                
+                // Clear form
+                document.getElementById('trainingTitle').value = '';
+                document.getElementById('trainingUrl').value = '';
+                document.getElementById('trainingDescription').value = '';
+                
+                // Refresh list
+                loadTrainingModulesList();
+                
+                setTimeout(() => {
+                    successDiv.className = 'success';
+                }, 4000);
+                
+            } catch (error) {
+                console.error('Error adding training module:', error);
+                errorDiv.textContent = '❌ ' + error.message;
+                errorDiv.className = 'error show';
+                successDiv.className = 'success';
+            }
+        });
+
+        // ============================================================
+        // ===== ADMIN TOOLS: DOWNLOAD REQUEST FILE =====
+        // ============================================================
+
+        async function downloadRequestFile(requestId) {
+            try {
+                const doc = await db.collection('subjectRequests').doc(requestId).get();
+                if (!doc.exists) {
+                    alert('Request not found!');
+                    return;
+                }
+                
+                const data = doc.data();
+                
+                if (!data.fileName) {
+                    alert('No file attached to this request.');
+                    return;
+                }
+                
+                // Show file info
+                const fileSize = data.fileSize ? (data.fileSize / 1024).toFixed(1) : 'Unknown';
+                const message = `📎 File: ${data.fileName}\n📊 Size: ${fileSize} KB\n\n📝 Note: ${data.fileNote || 'No additional notes.'}\n\nℹ️ The file was uploaded by the member. Please contact them directly or check Firebase Storage if the file was uploaded there.`;
+                
+                alert(message);
+                
+                // If you have Firebase Storage set up, you can download the file here
+                // Uncomment the code below if you have Firebase Storage configured
+                
+                /*
+                const storageRef = firebase.storage().ref();
+                const fileRef = storageRef.child(`subject_requests/${requestId}/${data.fileName}`);
+                
+                try {
+                    const url = await fileRef.getDownloadURL();
+                    // Open in new tab or download
+                    window.open(url, '_blank');
+                } catch (storageError) {
+                    // File might not be in storage, show the message again
+                    alert(`File "${data.fileName}" is not available in storage yet.\n\n${data.fileNote || ''}`);
+                }
+                */
+                
+            } catch (error) {
+                console.error('Error downloading file:', error);
                 alert('❌ Error: ' + error.message);
             }
         }
