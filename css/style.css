@@ -2546,6 +2546,8 @@ img {
     }
 }
 
+
+
 @media (max-width: 480px) {
     .dashboard-stats {
         grid-template-columns: 1fr;
@@ -2553,5 +2555,440 @@ img {
 
     .auth-box {
         padding: 1.5rem;
+    }
+}
+
+/* ===== MEMBER TABS ===== */
+.member-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    border-bottom: 2px solid var(--gray-200);
+    padding-bottom: 0.5rem;
+}
+
+.tab-btn {
+    padding: 0.6rem 1.5rem;
+    border: none;
+    background: var(--gray-100);
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--gray-600);
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: inherit;
+}
+
+.tab-btn:hover {
+    background: var(--gray-200);
+    color: var(--primary);
+}
+
+.tab-btn.active {
+    background: var(--gold);
+    color: var(--white);
+}
+
+.tab-btn i {
+    font-size: 1rem;
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== TRAINING MODULES ===== */
+.training-grid {
+    display: grid;
+    gap: 2rem;
+}
+
+.training-section h4 {
+    color: var(--primary);
+    margin-bottom: 1.2rem;
+    font-size: 1.1rem;
+    border-bottom: 2px solid var(--gray-200);
+    padding-bottom: 0.5rem;
+}
+
+.training-section h4 i {
+    color: var(--gold);
+    margin-right: 0.5rem;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.video-card {
+    background: var(--gray-50);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--gray-200);
+    transition: var(--transition);
+}
+
+.video-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--gold);
+}
+
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    background: var(--primary);
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.video-card h5 {
+    padding: 0.8rem 1rem 0.2rem;
+    color: var(--primary);
+    font-size: 0.95rem;
+}
+
+.video-card p {
+    padding: 0 1rem 1rem;
+    color: var(--gray-600);
+    font-size: 0.85rem;
+}
+
+/* ===== RESOURCE LINKS ===== */
+.resource-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.resource-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--gray-200);
+    text-decoration: none;
+    color: var(--primary);
+    transition: var(--transition);
+}
+
+.resource-link:hover {
+    border-color: var(--gold);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.resource-link i {
+    font-size: 1.8rem;
+    color: var(--gold);
+    min-width: 40px;
+    text-align: center;
+}
+
+.resource-link strong {
+    display: block;
+    font-size: 0.95rem;
+}
+
+.resource-link p {
+    font-size: 0.8rem;
+    color: var(--gray-500);
+    margin: 0;
+}
+
+/* ===== KNOWLEDGE BASE ===== */
+.knowledge-base {
+    display: grid;
+    gap: 2rem;
+}
+
+.reviewers-section h4,
+.request-section h4 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.reviewers-section h4 i,
+.request-section h4 i {
+    color: var(--gold);
+    margin-right: 0.5rem;
+}
+
+.reviewers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.reviewer-card {
+    background: var(--white);
+    padding: 1.2rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--gray-200);
+    transition: var(--transition);
+    text-decoration: none;
+    color: var(--primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.reviewer-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.reviewer-card i {
+    font-size: 2.5rem;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+}
+
+.reviewer-card .subject-code {
+    font-size: 0.8rem;
+    color: var(--gold);
+    font-weight: 700;
+    background: rgba(182, 139, 64, 0.1);
+    padding: 0.1rem 0.8rem;
+    border-radius: 30px;
+}
+
+.reviewer-card .subject-title {
+    font-weight: 600;
+    margin: 0.3rem 0;
+}
+
+.reviewer-card .subject-action {
+    font-size: 0.8rem;
+    color: var(--gray-500);
+    margin-top: 0.3rem;
+}
+
+.reviewer-card .subject-action i {
+    font-size: 0.8rem;
+    color: var(--gold);
+}
+
+.loading-text {
+    color: var(--gray-500);
+    text-align: center;
+    padding: 1rem;
+}
+
+.no-reviewers {
+    color: var(--gray-500);
+    text-align: center;
+    padding: 1rem;
+    grid-column: 1 / -1;
+}
+
+/* ===== REQUEST FORM ===== */
+.request-section {
+    background: var(--gray-50);
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-200);
+}
+
+.request-subtitle {
+    color: var(--gray-600);
+    font-size: 0.9rem;
+    margin-bottom: 1.2rem;
+}
+
+.request-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.request-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.request-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.request-form label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--primary);
+}
+
+.request-form label i {
+    color: var(--gold);
+    margin-right: 0.3rem;
+}
+
+.request-form input,
+.request-form textarea {
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--gray-200);
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: var(--transition);
+    background: var(--white);
+}
+
+.request-form input:focus,
+.request-form textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 4px rgba(182, 139, 64, 0.1);
+}
+
+.request-form input[type="file"] {
+    padding: 0.5rem;
+    border: 2px dashed var(--gray-300);
+    background: var(--white);
+    cursor: pointer;
+}
+
+.request-form input[type="file"]:hover {
+    border-color: var(--gold);
+}
+
+.request-form small {
+    color: var(--gray-500);
+    font-size: 0.8rem;
+}
+
+.request-form .btn {
+    align-self: flex-start;
+    padding: 0.8rem 2rem;
+}
+
+/* ===== COMING SOON ===== */
+.coming-soon {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: var(--gray-50);
+    border-radius: var(--radius);
+    border: 2px dashed var(--gray-300);
+}
+
+.coming-soon i {
+    font-size: 4rem;
+    color: var(--gold);
+    margin-bottom: 1rem;
+}
+
+.coming-soon h4 {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.coming-soon p {
+    color: var(--gray-600);
+    font-size: 1rem;
+}
+
+.coming-soon-sub {
+    color: var(--gray-500);
+    font-size: 0.9rem !important;
+}
+
+.coming-soon-progress {
+    margin-top: 1.5rem;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.coming-soon-progress .progress-bar {
+    height: 8px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+.coming-soon-progress span {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--gray-500);
+    margin-top: 0.3rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .member-tabs {
+        flex-wrap: wrap;
+        gap: 0.3rem;
+    }
+    
+    .tab-btn {
+        padding: 0.4rem 1rem;
+        font-size: 0.8rem;
+        flex: 1;
+        justify-content: center;
+        min-width: 80px;
+    }
+    
+    .video-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .resource-links {
+        grid-template-columns: 1fr;
+    }
+    
+    .request-form .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .reviewers-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .reviewers-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .coming-soon {
+        padding: 2rem 1rem;
+    }
+    
+    .coming-soon i {
+        font-size: 3rem;
     }
 }
