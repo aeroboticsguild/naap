@@ -2992,3 +2992,225 @@ img {
         font-size: 3rem;
     }
 }
+
+/* ============================================================ */
+/* ===== ADMIN TOOLS - MANAGEMENT (For admin.html) ===== */
+/* ============================================================ */
+
+.management-container {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background: var(--gray-50);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--gray-200);
+}
+
+.management-container h4 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.management-container h5 {
+    color: var(--primary);
+    margin: 1rem 0 0.5rem;
+    font-size: 0.95rem;
+}
+
+.management-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.8rem;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 0.5rem 0;
+}
+
+.management-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    background: var(--white);
+    border-radius: 8px;
+    border: 1px solid var(--gray-200);
+    transition: var(--transition);
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.management-item:hover {
+    border-color: var(--gold);
+}
+
+.management-item .item-info {
+    flex: 1;
+    min-width: 150px;
+}
+
+.management-item .item-title {
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 0.9rem;
+}
+
+.management-item .item-sub {
+    font-size: 0.8rem;
+    color: var(--gray-500);
+}
+
+.management-item .item-badge {
+    padding: 0.1rem 0.6rem;
+    border-radius: 30px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    background: var(--gold);
+    color: var(--white);
+}
+
+.management-item .item-badge.resource {
+    background: #3b82f6;
+}
+
+.management-item .item-actions {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.management-item .btn-icon {
+    padding: 0.3rem 0.6rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: var(--transition);
+    background: var(--gray-200);
+    color: var(--gray-700);
+}
+
+.management-item .btn-icon:hover {
+    transform: scale(1.05);
+}
+
+.management-item .btn-icon.delete-btn {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.management-item .btn-icon.delete-btn:hover {
+    background: #f5c6cb;
+}
+
+.management-item .btn-icon.view-btn {
+    background: #cce5ff;
+    color: #004085;
+}
+
+.management-item .btn-icon.view-btn:hover {
+    background: #b8d4f0;
+}
+
+/* Add Training Form */
+.add-training-section {
+    background: var(--white);
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--gray-200);
+    margin-bottom: 1.5rem;
+}
+
+.training-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.training-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+}
+
+.training-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.training-form label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--primary);
+}
+
+.training-form input,
+.training-form select,
+.training-form textarea {
+    padding: 0.6rem 0.8rem;
+    border: 2px solid var(--gray-200);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    transition: var(--transition);
+}
+
+.training-form input:focus,
+.training-form select:focus,
+.training-form textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 4px rgba(182, 139, 64, 0.1);
+}
+
+.training-form .btn-small {
+    width: auto;
+    padding: 0.5rem 1.5rem;
+    align-self: flex-start;
+}
+
+.training-list-section {
+    margin-top: 1rem;
+}
+
+.loading-text {
+    color: var(--gray-500);
+    text-align: center;
+    padding: 1rem;
+}
+
+.empty-text {
+    color: var(--gray-500);
+    text-align: center;
+    padding: 1rem;
+    grid-column: 1 / -1;
+}
+
+/* Toggle buttons active state */
+.admin-tool-buttons .btn.active {
+    background: var(--gold);
+    color: var(--white);
+}
+
+.admin-tool-buttons .btn.active:hover {
+    background: var(--gold-dark);
+}
+
+@media (max-width: 600px) {
+    .management-list {
+        grid-template-columns: 1fr;
+        max-height: 300px;
+    }
+    .training-form .form-row {
+        grid-template-columns: 1fr;
+    }
+    .management-item {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    .management-item .item-actions {
+        justify-content: center;
+    }
+    .training-form .btn-small {
+        align-self: stretch;
+    }
+}
