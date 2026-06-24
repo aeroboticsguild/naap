@@ -1,3 +1,11 @@
+// ===== PRELOADER =====
+window.addEventListener('load', () => {
+    const preloader = document.getElementById('preloader');
+    setTimeout(() => {
+        preloader.classList.add('hidden');
+    }, 800);
+});
+
 // ===== NAVBAR TOGGLE (Mobile) =====
 const hamburger = document.getElementById('hamburger');
 const navLinks = document.getElementById('navLinks');
@@ -43,7 +51,7 @@ const animateCounter = (el) => {
     const updateCounter = () => {
         current += step;
         if (current >= target) {
-            el.textContent = target + (target >= 10 ? '+' : '');
+            el.textContent = target;
             return;
         }
         el.textContent = current;
@@ -55,7 +63,7 @@ const animateCounter = (el) => {
 
 // Intersection Observer for counters
 const observerOptions = {
-    threshold: 0.5,
+    threshold: 0.3,
     rootMargin: '0px 0px -50px 0px'
 };
 
@@ -96,11 +104,55 @@ const navbar = document.getElementById('navbar');
 
 window.addEventListener('scroll', () => {
     if (window.scrollY > 50) {
-        navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.2)';
+        navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.25)';
     } else {
         navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.15)';
     }
 });
+
+// ===== FAQ TOGGLE =====
+function toggleFAQ(element) {
+    const item = element.parentElement;
+    const isActive = item.classList.contains('active');
+
+    // Close all other FAQs
+    document.querySelectorAll('.faq-item').forEach(faq => {
+        faq.classList.remove('active');
+    });
+
+    if (!isActive) {
+        item.classList.add('active');
+    }
+}
+
+// ===== NOTIFICATION =====
+const notification = document.getElementById('notification');
+
+setTimeout(() => {
+    notification.classList.add('show');
+}, 1500);
+
+setTimeout(() => {
+    notification.classList.remove('show');
+}, 6000);
+
+// ===== PROGRESS BAR ANIMATION =====
+const progressBars = document.querySelectorAll('.progress-fill');
+
+const progressObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const bar = entry.target;
+            const width = bar.style.width;
+            bar.style.width = '0%';
+            setTimeout(() => {
+                bar.style.width = width;
+            }, 200);
+        }
+    });
+}, { threshold: 0.3 });
+
+progressBars.forEach(bar => progressObserver.observe(bar));
 
 // ===== KEYBOARD ACCESSIBILITY =====
 document.addEventListener('keydown', (e) => {
@@ -109,4 +161,14 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+// ===== PARALLAX HERO (optional) =====
+window.addEventListener('scroll', () => {
+    const hero = document.querySelector('.hero');
+    const scrolled = window.scrollY;
+    if (hero && scrolled < window.innerHeight) {
+        hero.style.backgroundPositionY = `${scrolled * 0.3}px`;
+    }
+});
+
 console.log('🚀 AeroBotics Guild · Ready for takeoff!');
+console.log('📋 Members: 20+ | Projects: 8+');
