@@ -768,22 +768,185 @@
         </div>
     </div>
 
-    <!-- Member-Only Content -->
-    <div class="member-content">
-        <h3><i class="fas fa-lock"></i> Member-Only Access</h3>
-        <div class="member-links">
-            <a href="#training" class="member-link">
-                <i class="fas fa-graduation-cap"></i> Training Modules
-            </a>
-            <a href="#blog" class="member-link">
-                <i class="fas fa-newspaper"></i> Knowledge Base
-            </a>
-            <a href="#videos" class="member-link">
-                <i class="fas fa-video"></i> Video Gallery
-            </a>
-            <a href="#competitions" class="member-link">
-                <i class="fas fa-trophy"></i> Competition Highlights
-            </a>
+   <!-- Member-Only Content -->
+<div class="member-content">
+    <h3><i class="fas fa-lock"></i> Member-Only Access</h3>
+    
+    <!-- Tab Navigation -->
+    <div class="member-tabs">
+        <button class="tab-btn active" data-tab="training">
+            <i class="fas fa-graduation-cap"></i> Training Modules
+        </button>
+        <button class="tab-btn" data-tab="knowledge">
+            <i class="fas fa-book"></i> Knowledge Base
+        </button>
+        <button class="tab-btn" data-tab="videos">
+            <i class="fas fa-video"></i> Video Gallery
+        </button>
+        <button class="tab-btn" data-tab="competitions">
+            <i class="fas fa-trophy"></i> Competition Highlights
+        </button>
+    </div>
+
+    <!-- ===== TRAINING MODULES TAB ===== -->
+    <div class="tab-content active" id="tab-training">
+        <div class="training-grid">
+            <!-- YouTube Videos Section -->
+            <div class="training-section">
+                <h4><i class="fab fa-youtube"></i> Video Tutorials</h4>
+                <div class="video-grid">
+                    <div class="video-card">
+                        <div class="video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/6M3xRf8L-Gg" title="Electronics Basics" allowfullscreen></iframe>
+                        </div>
+                        <h5>Electronics Basics for Beginners</h5>
+                        <p>Learn the fundamentals of electronics, circuits, and components</p>
+                    </div>
+                    <div class="video-card">
+                        <div class="video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/j-_s8f5K30I" title="Arduino Tutorial" allowfullscreen></iframe>
+                        </div>
+                        <h5>Arduino Complete Tutorial</h5>
+                        <p>Master Arduino programming and hardware integration</p>
+                    </div>
+                    <div class="video-card">
+                        <div class="video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/Kay8hnc5jC0" title="Robotics for Beginners" allowfullscreen></iframe>
+                        </div>
+                        <h5>Robotics Fundamentals</h5>
+                        <p>Introduction to robotics, sensors, and automation</p>
+                    </div>
+                    <div class="video-card">
+                        <div class="video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/6Pk0r-AM_ys" title="Python Programming" allowfullscreen></iframe>
+                        </div>
+                        <h5>Python for Robotics</h5>
+                        <p>Learn Python programming for robotics applications</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Study Resources Section -->
+            <div class="training-section">
+                <h4><i class="fas fa-globe"></i> Study Resources</h4>
+                <div class="resource-links">
+                    <a href="https://www.arduino.cc/" target="_blank" class="resource-link">
+                        <i class="fas fa-microchip"></i>
+                        <div>
+                            <strong>Arduino Official</strong>
+                            <p>Official Arduino documentation and tutorials</p>
+                        </div>
+                    </a>
+                    <a href="https://www.raspberrypi.org/" target="_blank" class="resource-link">
+                        <i class="fab fa-raspberry-pi"></i>
+                        <div>
+                            <strong>Raspberry Pi</strong>
+                            <p>Learn about single-board computers and robotics</p>
+                        </div>
+                    </a>
+                    <a href="https://www.electronics-tutorials.ws/" target="_blank" class="resource-link">
+                        <i class="fas fa-bolt"></i>
+                        <div>
+                            <strong>Electronics Tutorials</strong>
+                            <p>Comprehensive electronics theory and practice</p>
+                        </div>
+                    </a>
+                    <a href="https://www.robotics.org/" target="_blank" class="resource-link">
+                        <i class="fas fa-robot"></i>
+                        <div>
+                            <strong>Robotics Alliance</strong>
+                            <p>Robotics research and development resources</p>
+                        </div>
+                    </a>
+                    <a href="https://www.learnrobotics.org/" target="_blank" class="resource-link">
+                        <i class="fas fa-graduation-cap"></i>
+                        <div>
+                            <strong>Learn Robotics</strong>
+                            <p>Project-based robotics learning platform</p>
+                        </div>
+                    </a>
+                    <a href="https://www.robotshop.com/community/" target="_blank" class="resource-link">
+                        <i class="fas fa-users"></i>
+                        <div>
+                            <strong>RobotShop Community</strong>
+                            <p>Robotics projects, guides, and community forums</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== KNOWLEDGE BASE TAB ===== -->
+    <div class="tab-content" id="tab-knowledge">
+        <div class="knowledge-base">
+            <!-- Reviewers Section -->
+            <div class="reviewers-section">
+                <h4><i class="fas fa-file-alt"></i> Reviewers for Selected Subjects</h4>
+                <div id="reviewersList" class="reviewers-grid">
+                    <p class="loading-text">Loading reviewers...</p>
+                </div>
+            </div>
+
+            <!-- Request Subject Form -->
+            <div class="request-section">
+                <h4><i class="fas fa-plus-circle"></i> Request a Subject</h4>
+                <p class="request-subtitle">Request a subject you want reviewers for. The admin will review and create one.</p>
+                
+                <form id="requestSubjectForm" class="request-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="subjectCode"><i class="fas fa-hashtag"></i> Subject Code</label>
+                            <input type="text" id="subjectCode" placeholder="e.g., ECE101" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="subjectTitle"><i class="fas fa-book"></i> Subject Title</label>
+                            <input type="text" id="subjectTitle" placeholder="e.g., Basic Electronics" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="subjectDescription"><i class="fas fa-align-left"></i> Description (Optional)</label>
+                        <textarea id="subjectDescription" placeholder="Provide additional details about the subject..." rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="subjectFile"><i class="fas fa-file-upload"></i> Upload Reference File</label>
+                        <input type="file" id="subjectFile" accept=".pdf,.doc,.docx,.ppt,.pptx,.zip" required />
+                        <small>Upload a PDF, Word, PowerPoint, or ZIP file with your reference materials.</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Submit Request
+                    </button>
+                    <div id="requestMessage" class="auth-message"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== VIDEO GALLERY TAB (Temporarily Unavailable) ===== -->
+    <div class="tab-content" id="tab-videos">
+        <div class="coming-soon">
+            <i class="fas fa-video"></i>
+            <h4>Video Gallery</h4>
+            <p>🎬 This feature is currently under development.</p>
+            <p class="coming-soon-sub">Check back soon for exclusive AeroBotics Guild video content!</p>
+            <div class="coming-soon-progress">
+                <div class="progress-bar" style="width: 30%;"></div>
+                <span>30% Complete</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== COMPETITION HIGHLIGHTS TAB (Temporarily Unavailable) ===== -->
+    <div class="tab-content" id="tab-competitions">
+        <div class="coming-soon">
+            <i class="fas fa-trophy"></i>
+            <h4>Competition Highlights</h4>
+            <p>🏆 This feature is currently under development.</p>
+            <p class="coming-soon-sub">Competition results and highlights will be posted here soon!</p>
+            <div class="coming-soon-progress">
+                <div class="progress-bar" style="width: 15%;"></div>
+                <span>15% Complete</span>
+            </div>
         </div>
     </div>
 </div>
