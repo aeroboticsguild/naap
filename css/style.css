@@ -1639,3 +1639,696 @@ img {
         padding: 0.8rem 1.2rem;
     }
 }
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AeroBotics Guild · NAAP</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+    <!-- ===== PRELOADER ===== -->
+    <div class="preloader" id="preloader">
+        <div class="loader">
+            <img src="assets/images/profile.png" alt="AeroBotics" class="loader-logo" />
+            <div class="loader-ring"></div>
+        </div>
+        <p>Loading...</p>
+    </div>
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <img src="assets/images/profile.png" alt="AeroBotics Logo" class="logo-img" />
+                <span>AeroBotics</span>
+                <span class="logo-badge">Guild</span>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#about">About</a></li>
+                <li><a href="#benefits">Benefits</a></li>
+                <li><a href="#rankings">Rankings</a></li>
+                <li><a href="#officers">Officers</a></li>
+                <li><a href="#membership">Membership</a></li>
+                <li><a href="#resources">Resources</a></li>
+                <li><a href="https://forms.gle/your-google-form-link" target="_blank" class="btn btn-nav-apply">
+                    <i class="fas fa-paper-plane"></i> Join Now
+                </a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="home">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-microchip"></i> NAAP · Palmayo-Basa Campus
+                </div>
+                <h1>Build, Innovate, <br /><span>Launch</span> Your Future</h1>
+                <p>
+                    The AeroBotics Guild is the premier student organization for robotics,
+                    automation, and aeronautical innovation — where theory meets fabrication.
+                </p>
+                <div class="hero-buttons">
+                    <a href="https://forms.gle/your-google-form-link" target="_blank" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Apply Now
+                    </a>
+                    <a href="#about" class="btn btn-secondary">
+                        <i class="fas fa-info-circle"></i> Learn More
+                    </a>
+                    <a href="assets/docs/Membership Guide.pdf" download class="btn btn-download">
+                        <i class="fas fa-download"></i> Guide
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number" data-count="20">0</span><span class="plus">+</span>
+                        <span class="stat-label">Active Members</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" data-count="5">0</span>
+                        <span class="stat-label">Tracks</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" data-count="5">0</span>
+                        <span class="stat-label">Skill Levels</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" data-count="1">0</span>
+                        <span class="stat-label">Membership Drive</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-card">
+                    <img src="assets/images/profile.png" alt="AeroBotics Guild Logo" class="hero-logo" />
+                    <h2>AERØ</h2>
+                    <p class="hero-tagline">
+                        <i class="fas fa-robot"></i>
+                        <i class="fas fa-microchip"></i>
+                        <i class="fas fa-plane"></i>
+                    </p>
+                    <div class="hero-tags">
+                        <span class="tag">Systems</span>
+                        <span class="tag">Software</span>
+                        <span class="tag">R&D</span>
+                    </div>
+                    <div class="hero-rfid">
+                        <i class="fas fa-id-card"></i> RFID-Enabled ID
+                    </div>
+                    <div class="hero-members">
+                        <i class="fas fa-users"></i> 20+ Members Strong
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-wave">
+            <svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0,50 C360,100 720,0 1080,50 C1260,75 1380,60 1440,50 L1440,100 L0,100 Z" fill="#ffffff" />
+            </svg>
+        </div>
+    </section>
+
+    <!-- ===== MEMBERSHIP DRIVE BANNER ===== -->
+    <section class="membership-drive" id="membership">
+        <div class="container">
+            <div class="drive-banner">
+                <div class="drive-content">
+                    <div class="drive-icon"><i class="fas fa-bullhorn"></i></div>
+                    <div class="drive-text">
+                        <h3>🚀 Membership Drive is NOW OPEN!</h3>
+                        <p>Join the AeroBotics Guild and be part of the innovation community. Applications are accepted until <strong>March 31, 2026</strong>.</p>
+                    </div>
+                    <a href="https://forms.gle/your-google-form-link" target="_blank" class="btn btn-drive">
+                        <i class="fas fa-paper-plane"></i> Apply Now
+                    </a>
+                </div>
+                <div class="drive-countdown">
+                    <span id="countdown-days">00</span>
+                    <span class="cd-label">Days</span>
+                    <span id="countdown-hours">00</span>
+                    <span class="cd-label">Hours</span>
+                    <span id="countdown-minutes">00</span>
+                    <span class="cd-label">Min</span>
+                    <span id="countdown-seconds">00</span>
+                    <span class="cd-label">Sec</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT / MISSION ===== -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">About the <span class="highlight">Guild</span></h2>
+                <p class="section-sub">
+                    We are a duly recognized student organization of the National Aviation
+                    Academy of the Philippines — Palmayo-Basa Campus.
+                </p>
+            </div>
+            <div class="mission-grid">
+                <div class="mission-card">
+                    <div class="mission-icon"><i class="fas fa-eye"></i></div>
+                    <h3>Vision</h3>
+                    <p>
+                        To become a premier student organization that develops future-ready
+                        innovators, problem-solvers, and technology-driven leaders in
+                        robotics, automation, and applied engineering.
+                    </p>
+                </div>
+                <div class="mission-card">
+                    <div class="mission-icon"><i class="fas fa-bullseye"></i></div>
+                    <h3>Mission</h3>
+                    <p>
+                        Cultivate students' interest and competence in robotics, electronics,
+                        programming, automation, and innovation through projects, training,
+                        competitions, and community engagement.
+                    </p>
+                </div>
+                <div class="mission-card">
+                    <div class="mission-icon"><i class="fas fa-gem"></i></div>
+                    <h3>Core Values</h3>
+                    <ul class="values-list">
+                        <li><i class="fas fa-check-circle"></i> Integrity</li>
+                        <li><i class="fas fa-check-circle"></i> Innovation</li>
+                        <li><i class="fas fa-check-circle"></i> Collaboration</li>
+                        <li><i class="fas fa-check-circle"></i> Excellence</li>
+                        <li><i class="fas fa-check-circle"></i> Responsibility</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="about-timeline">
+                <h3><i class="fas fa-clock"></i> Our Journey</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="timeline-year">2024</span>
+                        <span class="timeline-desc">Founded · First General Assembly</span>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">2025</span>
+                        <span class="timeline-desc">First Competition · 20+ Members</span>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">2026</span>
+                        <span class="timeline-desc">Membership Drive · Innovation Hub</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PRACTICAL BENEFITS ===== -->
+    <section class="benefits" id="benefits">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Why Join? <span class="highlight">Practical Benefits</span></h2>
+                <p class="section-sub">
+                    Beyond passion, the Guild gives you tangible, career-shaping advantages
+                    that set you apart.
+                </p>
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-certificate"></i></div>
+                    <h4>Skill Validation</h4>
+                    <p>Official ranking from Foundation to Expert, with certificates for every training you complete.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-tools"></i></div>
+                    <h4>Tool & Lab Access</h4>
+                    <p>Use expensive equipment, components, and workshop spaces without personal cost.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-users"></i></div>
+                    <h4>Built-in Project Teams</h4>
+                    <p>Find verified coders, fabricators, and researchers for thesis and competitions.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-file-alt"></i></div>
+                    <h4>Thesis Foundation</h4>
+                    <p>Learn proposal writing, schematics, and documentation — directly applicable to your capstone.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-trophy"></i></div>
+                    <h4>Competition Pathway</h4>
+                    <p>Represent NAAP in regional, national, and international robotics & innovation events.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-handshake"></i></div>
+                    <h4>Industry Linkages</h4>
+                    <p>Access internships, sponsorships, and partnerships through the External Relations desk.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-id-card"></i></div>
+                    <h4>RFID Smart ID</h4>
+                    <p>Track attendance, participation, and access control with your official Guild identification pin.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fas fa-award"></i></div>
+                    <h4>Recognition & Awards</h4>
+                    <p>Be recognized through the Guild Excellence Award, Best in Specialization, and more.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== RANKING SYSTEM ===== -->
+    <section class="rankings" id="rankings">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Ranking <span class="highlight">System</span></h2>
+                <p class="section-sub">
+                    General ranking (points-based) and Skills-Based ranking (competency)
+                    work together to track your growth.
+                </p>
+            </div>
+            <div class="rankings-wrapper">
+                <div class="rank-table">
+                    <div class="rank-item rank-f">
+                        <span class="rank-letter">F</span>
+                        <span class="rank-points">0 – 30 pts</span>
+                        <span class="rank-label">Entry-Level</span>
+                    </div>
+                    <div class="rank-item rank-d">
+                        <span class="rank-letter">D</span>
+                        <span class="rank-points">31 – 69 pts</span>
+                        <span class="rank-label">Developing</span>
+                    </div>
+                    <div class="rank-item rank-c">
+                        <span class="rank-letter">C</span>
+                        <span class="rank-points">70 – 129 pts</span>
+                        <span class="rank-label">Contributing</span>
+                    </div>
+                    <div class="rank-item rank-b">
+                        <span class="rank-letter">B</span>
+                        <span class="rank-points">130 – 199 pts</span>
+                        <span class="rank-label">Advanced</span>
+                    </div>
+                    <div class="rank-item rank-a">
+                        <span class="rank-letter">A</span>
+                        <span class="rank-points">200+ pts</span>
+                        <span class="rank-label">Elite</span>
+                    </div>
+                </div>
+                <div class="skill-ranks">
+                    <h4><i class="fas fa-microchip"></i> Skills-Based Levels</h4>
+                    <div class="skill-levels">
+                        <span class="skill-level">Foundation</span>
+                        <span class="skill-level">Associate</span>
+                        <span class="skill-level">Advanced</span>
+                        <span class="skill-level">Specialist</span>
+                        <span class="skill-level expert">Expert</span>
+                    </div>
+                    <p class="skill-note">
+                        <i class="fas fa-info-circle"></i> Validated via exams, projects, and practical evaluations
+                    </p>
+                </div>
+                <div class="point-system">
+                    <h4><i class="fas fa-star"></i> How to Earn Points</h4>
+                    <div class="point-grid">
+                        <div class="point-item"><span>Attendance</span> <span class="pts">+2</span></div>
+                        <div class="point-item"><span>Active Participation</span> <span class="pts">+5</span></div>
+                        <div class="point-item"><span>Project Leadership</span> <span class="pts">+15</span></div>
+                        <div class="point-item"><span>Competition Participation</span> <span class="pts">+10</span></div>
+                        <div class="point-item"><span>Internal Awards</span> <span class="pts">+15</span></div>
+                        <div class="point-item"><span>External Awards</span> <span class="pts">+30</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== OFFICERS ===== -->
+    <section class="officers" id="officers">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Meet the <span class="highlight">Leadership</span></h2>
+                <p class="section-sub">
+                    The Guild is governed by a dedicated team of Executive Officers
+                    and Committee Heads.
+                </p>
+            </div>
+
+            <!-- Adviser -->
+            <div class="adviser-section">
+                <h3><i class="fas fa-star"></i> Guild Adviser</h3>
+                <div class="adviser-card">
+                    <img src="assets/images/adv.png" alt="Adviser" class="adviser-img" />
+                    <div class="adviser-info">
+                        <h4>Terence Jason Mallari</h4>
+                        <p class="adviser-title">Faculty Adviser</p>
+                        <div class="adviser-badges">
+                            <span class="badge"><i class="fas fa-microchip"></i> Robotics</span>
+                            <span class="badge"><i class="fas fa-flask"></i> Research</span>
+                            <span class="badge"><i class="fas fa-chalkboard-teacher"></i> Mentor</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Executive Officers -->
+            <div class="officer-section">
+                <h3><i class="fas fa-user-tie"></i> Executive Officers</h3>
+                <div class="officer-grid">
+                    <div class="officer-card">
+                        <img src="assets/images/cio.png" alt="CIO" class="officer-img" />
+                        <h4>Paul Andrei C. Timpog</h4>
+                        <p class="officer-title">Chief Innovation Officer</p>
+                        <span class="badge">Executive</span>
+                        <div class="officer-social">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                    <div class="officer-card">
+                        <img src="assets/images/dio.png" alt="DIO" class="officer-img" />
+                        <h4>Marcela Benita Emilia M. Timbol</h4>
+                        <p class="officer-title">Deputy Innovation Officer</p>
+                        <span class="badge">Executive</span>
+                        <div class="officer-social">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                    <div class="officer-card">
+                        <img src="assets/images/co.png" alt="Communications" class="officer-img" />
+                        <h4>Rylean S. Jacinto</h4>
+                        <p class="officer-title">Communications Officer</p>
+                        <span class="badge">Executive</span>
+                        <div class="officer-social">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                    <div class="officer-card">
+                        <img src="assets/images/fc.png" alt="Finance" class="officer-img" />
+                        <h4>Lhiel A. Pastrana</h4>
+                        <p class="officer-title">Finance & Compliance Officer</p>
+                        <span class="badge">Executive</span>
+                        <div class="officer-social">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                    <div class="officer-card">
+                        <img src="assets/images/em.png" alt="Engagement" class="officer-img" />
+                        <h4>Jeremy Dela Cruz</h4>
+                        <p class="officer-title">Engagement & Media Officer</p>
+                        <span class="badge">Executive</span>
+                        <div class="officer-social">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Committee Heads -->
+            <div class="committee-section">
+                <h3><i class="fas fa-users-cog"></i> Committee Heads</h3>
+                <div class="committee-grid">
+                    <div class="committee-card">
+                        <i class="fas fa-flask"></i>
+                        <h4>Research & Development</h4>
+                        <p>Leads innovation, prototyping, and technical studies</p>
+                    </div>
+                    <div class="committee-card">
+                        <i class="fas fa-microchip"></i>
+                        <h4>Systems & Fabrication</h4>
+                        <p>Oversees hardware, assembly, and quality control</p>
+                    </div>
+                    <div class="committee-card">
+                        <i class="fas fa-globe"></i>
+                        <h4>External Relations & Linkages</h4>
+                        <p>Manages partnerships, outreach, and sponsorships</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MEMBERSHIP PROCESS ===== -->
+    <section class="membership-process">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Membership <span class="highlight">Process</span></h2>
+                <p class="section-sub">
+                    Your journey to becoming a member of the AeroBotics Guild in 4 simple steps.
+                </p>
+            </div>
+            <div class="process-grid">
+                <div class="process-card">
+                    <div class="process-number">1</div>
+                    <div class="process-icon"><i class="fas fa-file-signature"></i></div>
+                    <h4>Apply</h4>
+                    <p>Fill out the Google Form application and submit your requirements.</p>
+                </div>
+                <div class="process-card">
+                    <div class="process-number">2</div>
+                    <div class="process-icon"><i class="fas fa-clipboard-list"></i></div>
+                    <h4>Evaluate</h4>
+                    <p>Take the Skills Assessment and pass the panel interview.</p>
+                </div>
+                <div class="process-card">
+                    <div class="process-number">3</div>
+                    <div class="process-icon"><i class="fas fa-id-card"></i></div>
+                    <h4>Register</h4>
+                    <p>Pay the ₱50 membership fee and receive your RFID-enabled ID.</p>
+                </div>
+                <div class="process-card">
+                    <div class="process-number">4</div>
+                    <div class="process-icon"><i class="fas fa-rocket"></i></div>
+                    <h4>Launch</h4>
+                    <p>Join projects, earn points, and advance in rank!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== RESOURCES ===== -->
+    <section class="resources" id="resources">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Resources & <span class="highlight">Downloads</span></h2>
+                <p class="section-sub">
+                    Access important documents and guides to get started with the Guild.
+                </p>
+            </div>
+            <div class="resources-grid">
+                <div class="resource-card featured">
+                    <i class="fas fa-file-pdf"></i>
+                    <h4>Membership Guide</h4>
+                    <p>Complete guide to joining the AeroBotics Guild — includes steps, requirements, and FAQs.</p>
+                    <a href="assets/docs/Membership Guide.pdf" download class="btn btn-download">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+                <div class="resource-card">
+                    <i class="fas fa-file-alt"></i>
+                    <h4>Constitution & By-Laws</h4>
+                    <p>The official governing document of the AeroBotics Guild.</p>
+                    <a href="#" class="btn btn-download">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+                <div class="resource-card">
+                    <i class="fas fa-id-card"></i>
+                    <h4>Application Form</h4>
+                    <p>Fill out the official membership application form to join the Guild.</p>
+                    <a href="#" class="btn btn-download">
+                        <i class="fas fa-download"></i> Download Form
+                    </a>
+                </div>
+                <div class="resource-card">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h4>Activity Calendar</h4>
+                    <p>Stay updated with upcoming workshops, meetings, and events.</p>
+                    <a href="#" class="btn btn-download">
+                        <i class="fas fa-download"></i> View Calendar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TESTIMONIALS ===== -->
+    <section class="testimonial">
+        <div class="container">
+            <div class="testimonial-content">
+                <i class="fas fa-quote-left"></i>
+                <blockquote>
+                    The AeroBotics Guild transformed how I approach engineering.
+                    From soldering to system design, I gained skills that go far beyond
+                    the classroom. The mentorship and collaboration here are unmatched.
+                </blockquote>
+                <cite>— Senior Member, Systems & Fabrication Track</cite>
+                <div class="testimonial-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section class="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Frequently Asked <span class="highlight">Questions</span></h2>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How much is the membership fee?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>The membership fee is <strong>₱50.00</strong>, which includes your official RFID-enabled Guild Identification Pin.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What tracks can I join?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Members can join one of four tracks: <strong>Systems & Fabrication</strong>, <strong>Software & Programming</strong>, <strong>Research & Development</strong>, or the <strong>Multidisciplinary Track</strong>.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Do I need prior experience?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Not at all! The Guild welcomes members of all skill levels. You'll start with a skills assessment and be placed in the appropriate track to develop your abilities.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I advance in rank?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You advance by earning points through attendance, project participation, competitions, and leadership roles. Higher ranks unlock more opportunities and recognition.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Can I join other organizations?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, regular members can join other organizations. However, Executive Board members cannot hold positions in other organizations to ensure full commitment to the Guild.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>When is the membership deadline?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>The membership drive is open until <strong>March 31, 2026</strong>. Apply now to secure your spot!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== APPLY CTA ===== -->
+    <section class="apply-cta" id="apply">
+        <div class="container">
+            <h2>Ready to Build the <span>Future</span>?</h2>
+            <p>
+                Join the AeroBotics Guild and gain verified skills, real projects,
+                and a network that launches your career.
+            </p>
+            <div class="apply-features">
+                <span><i class="fas fa-check-circle"></i> ₱50 Membership Fee</span>
+                <span><i class="fas fa-check-circle"></i> RFID-Enabled ID</span>
+                <span><i class="fas fa-check-circle"></i> 4 Specialized Tracks</span>
+                <span><i class="fas fa-check-circle"></i> 20+ Members</span>
+            </div>
+            <a href="https://forms.gle/your-google-form-link" target="_blank" class="btn btn-apply">
+                <i class="fas fa-paper-plane"></i> Start Your Application
+            </a>
+            <p class="apply-note">
+                <i class="fas fa-info-circle"></i> Application includes skills assessment & panel interview
+            </p>
+            <a href="assets/docs/Membership Guide.pdf" download class="apply-guide-link">
+                <i class="fas fa-download"></i> Download Membership Guide
+            </a>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="assets/images/profile.png" alt="AeroBotics Logo" class="footer-logo" />
+                    <h3>AeroBotics Guild</h3>
+                    <p>National Aviation Academy of the Philippines<br />Palmayo-Basa Campus</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <a href="#about">About</a>
+                    <a href="#benefits">Benefits</a>
+                    <a href="#rankings">Rankings</a>
+                    <a href="#officers">Officers</a>
+                    <a href="#membership">Membership</a>
+                    <a href="#resources">Resources</a>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-envelope"></i> aerobotics@naap.edu.ph</p>
+                    <p><i class="fas fa-phone-alt"></i> (045) 123-4567</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Palmayo-Basa Campus, NAAP</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 AeroBotics Guild · NAAP. All rights reserved.</p>
+                <p class="footer-open-source">
+                    <i class="fas fa-code"></i> Open Source · Built with ❤️
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SCROLL TO TOP ===== -->
+    <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- ===== NOTIFICATION ===== -->
+    <div class="notification" id="notification">
+        <i class="fas fa-bullhorn"></i>
+        <span>🚀 Membership Drive is NOW OPEN!</span>
+    </div>
+
+    <!-- ===== CUSTOM JS ===== -->
+    <script src="js/script.js"></script>
+</body>
+</html>
