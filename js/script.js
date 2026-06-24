@@ -1,4 +1,6 @@
+// ============================================================
 // ===== SPLASH SCREEN =====
+// ============================================================
 const splashScreen = document.getElementById('splashScreen');
 
 // Create splash particles
@@ -264,8 +266,41 @@ if (heroCard) {
         heroCard.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
     });
 }
+
+// ============================================================
+// ===== FIREBASE AUTHENTICATION & MEMBER MANAGEMENT =====
+// ============================================================
+
+// ===== CREATE MEMBER DOCUMENT IF IT DOESN'T EXIST =====
+async function createMemberDocument(uid, email, displayName) {
+    try {
+        console.log('📝 Creating member document for:', email);
+        
+        await firebase.firestore().collection('members').doc(uid).set({
+            name: displayName || 'Member',
+            email: email || 'unknown@email.com',
+            rank: 'F',
+            points: 0,
+            tracks: ['Not Assigned'],
+            modules: [],
+            projects: [],
+            joinDate: new Date().toISOString(),
+            role: 'student'
+        });
+        
+        console.log('✅ Member document created successfully!');
+        return true;
+        
+    } catch (error) {
+        console.error('❌ Error creating member document:', error);
+        return false;
+    }
+}
+
 // ===== AUTH STATE OBSERVER =====
 firebase.auth().onAuthStateChanged((user) => {
+    console.log('🔐 Auth state changed:', user ? 'Logged in' : 'Logged out');
+    
     if (user) {
         // User is signed in
         document.getElementById('loginContainer').style.display = 'none';
@@ -322,12 +357,25 @@ async function loadMemberData(uid) {
             
         } else {
             console.warn('⚠️ No member document found for UID:', uid);
+            console.log('🔄 Attempting to create member document...');
+            
+            // Get user info
+            const user = firebase.auth().currentUser;
+            const email = user ? user.email : 'unknown@email.com';
+            const name = user ? user.displayName || 'Member' : 'Member';
+            
+            // Create the document
+            await createMemberDocument(uid, email, name);
+            
             // Set default values
+            document.getElementById('userName').textContent = name;
             document.getElementById('userPoints').textContent = '0';
             document.getElementById('userRank').textContent = 'F';
             document.getElementById('userRankBadge').textContent = 'Rank: F';
             document.getElementById('userProjects').textContent = '0';
             document.getElementById('userModules').textContent = '0';
+            
+            console.log('✅ Default values set after creating document!');
         }
         
     } catch (error) {
