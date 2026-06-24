@@ -1,3 +1,73 @@
+// ===== SPLASH SCREEN =====
+const splashScreen = document.getElementById('splashScreen');
+
+// Create splash particles
+function createSplashParticles() {
+    const container = document.getElementById('splashParticles');
+    for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.width = (Math.random() * 6 + 2) + 'px';
+        particle.style.height = particle.style.width;
+        particle.style.animationDuration = (Math.random() * 8 + 6) + 's';
+        particle.style.animationDelay = (Math.random() * 5) + 's';
+        particle.style.opacity = Math.random() * 0.5 + 0.2;
+        container.appendChild(particle);
+    }
+}
+createSplashParticles();
+
+// ===== HERO PARTICLES =====
+function createHeroParticles() {
+    const container = document.getElementById('heroParticles');
+    for (let i = 0; i < 30; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('hero-particle');
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.width = (Math.random() * 8 + 2) + 'px';
+        particle.style.height = particle.style.width;
+        particle.style.animationDuration = (Math.random() * 20 + 15) + 's';
+        particle.style.animationDelay = (Math.random() * 10) + 's';
+        particle.style.opacity = Math.random() * 0.3 + 0.1;
+        container.appendChild(particle);
+    }
+}
+createHeroParticles();
+
+// ===== SPLASH SCREEN AUTO-DISMISS =====
+setTimeout(() => {
+    splashScreen.classList.add('hidden');
+    // Trigger scroll reveal after splash
+    setTimeout(() => {
+        document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right').forEach(el => {
+            el.classList.add('visible');
+        });
+    }, 300);
+}, 3200);
+
+// ===== SCROLL REVEAL OBSERVER =====
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, {
+    threshold: 0.15,
+    rootMargin: '0px 0px -50px 0px'
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Add scroll-reveal classes to elements
+    document.querySelectorAll('.mission-card, .benefit-card, .officer-card, .process-card, .resource-card, .faq-item').forEach((el, index) => {
+        el.classList.add('scroll-reveal');
+        el.style.transitionDelay = (index * 0.05) + 's';
+        revealObserver.observe(el);
+    });
+});
+
 // ===== PRELOADER =====
 window.addEventListener('load', () => {
     const preloader = document.getElementById('preloader');
@@ -52,6 +122,7 @@ const animateCounter = (el) => {
         current += step;
         if (current >= target) {
             el.textContent = target;
+            el.classList.add('animated');
             return;
         }
         el.textContent = current;
@@ -136,24 +207,6 @@ setTimeout(() => {
     notification.classList.remove('show');
 }, 6000);
 
-// ===== PROGRESS BAR ANIMATION =====
-const progressBars = document.querySelectorAll('.progress-fill');
-
-const progressObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const bar = entry.target;
-            const width = bar.style.width;
-            bar.style.width = '0%';
-            setTimeout(() => {
-                bar.style.width = width;
-            }, 200);
-        }
-    });
-}, { threshold: 0.3 });
-
-progressBars.forEach(bar => progressObserver.observe(bar));
-
 // ===== KEYBOARD ACCESSIBILITY =====
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
@@ -161,21 +214,13 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// ===== PARALLAX HERO (optional) =====
-window.addEventListener('scroll', () => {
-    const hero = document.querySelector('.hero');
-    const scrolled = window.scrollY;
-    if (hero && scrolled < window.innerHeight) {
-        hero.style.backgroundPositionY = `${scrolled * 0.3}px`;
-    }
-});
-
 console.log('🚀 AeroBotics Guild · Ready for takeoff!');
 console.log('📋 Members: 20+ | Projects: 1');
+console.log('✨ Innovate. Automate. Elevate.');
 
 // ===== COUNTDOWN TIMER (Membership Drive) =====
 function updateCountdown() {
-    const targetDate = new Date('2026-03-31T23:59:59').getTime();
+    const targetDate = new Date('2026-07-31T23:59:59').getTime();
     const now = new Date().getTime();
     const diff = targetDate - now;
 
@@ -200,3 +245,22 @@ function updateCountdown() {
 
 updateCountdown();
 setInterval(updateCountdown, 1000);
+
+// ===== PARALLAX ON MOUSE MOVE (Hero Card) =====
+const heroCard = document.querySelector('.hero-card');
+if (heroCard) {
+    document.querySelector('.hero-image').addEventListener('mousemove', (e) => {
+        const rect = heroCard.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / 20;
+        const rotateY = -(x - centerX) / 20;
+        heroCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+    });
+
+    document.querySelector('.hero-image').addEventListener('mouseleave', () => {
+        heroCard.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+    });
+}
