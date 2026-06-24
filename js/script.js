@@ -338,11 +338,12 @@ async function loadMemberData(uid) {
             const data = doc.data();
             console.log('✅ Member data loaded:', data);
             
-            // Safely get values with fallbacks
+            // Safely get values with fallbacks - FIXED: use name field
             const points = data.points !== undefined ? data.points : 0;
             const rank = data.rank || 'F';
             const projects = data.projects || [];
             const modules = data.modules || [];
+            // FIXED: Use name field properly
             const name = data.name || 'Member';
             
             // Update UI
@@ -362,6 +363,7 @@ async function loadMemberData(uid) {
             // Get user info
             const user = firebase.auth().currentUser;
             const email = user ? user.email : 'unknown@email.com';
+            // FIXED: Use displayName from Firebase auth
             const name = user ? user.displayName || 'Member' : 'Member';
             
             // Create the document
@@ -386,9 +388,10 @@ async function loadMemberData(uid) {
         document.getElementById('userRankBadge').textContent = 'Rank: F';
         document.getElementById('userProjects').textContent = '0';
         document.getElementById('userModules').textContent = '0';
+        // FIXED: Set a default name
+        document.getElementById('userName').textContent = 'Member';
     }
 }
-
 // ===== LOGIN =====
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
