@@ -13,9 +13,9 @@
     <link rel="stylesheet" href="css/style.css" />
     
     <style>
-        /* Admin Panel Specific Styles */
+        /* Admin Panel Styles */
         .admin-panel {
-            max-width: 700px;
+            max-width: 900px;
             margin: 2rem auto;
             padding: 2rem;
             background: var(--white);
@@ -46,17 +46,20 @@
         }
         
         .admin-panel input,
-        .admin-panel select {
+        .admin-panel select,
+        .admin-panel textarea {
             width: 100%;
             padding: 0.8rem 1rem;
             border: 2px solid var(--gray-200);
             border-radius: 10px;
             font-size: 1rem;
             transition: var(--transition);
+            font-family: inherit;
         }
         
         .admin-panel input:focus,
-        .admin-panel select:focus {
+        .admin-panel select:focus,
+        .admin-panel textarea:focus {
             outline: none;
             border-color: var(--gold);
             box-shadow: 0 0 0 4px rgba(182, 139, 64, 0.1);
@@ -72,6 +75,33 @@
             width: auto;
             padding: 0.4rem 1rem;
             font-size: 0.85rem;
+        }
+        
+        .admin-panel .btn-secondary {
+            background: var(--gray-200);
+            color: var(--gray-700);
+        }
+        
+        .admin-panel .btn-secondary:hover {
+            background: var(--gray-300);
+        }
+        
+        .admin-panel .btn-danger {
+            background: #dc3545;
+            color: var(--white);
+        }
+        
+        .admin-panel .btn-danger:hover {
+            background: #c82333;
+        }
+        
+        .admin-panel .btn-success {
+            background: #28a745;
+            color: var(--white);
+        }
+        
+        .admin-panel .btn-success:hover {
+            background: #218838;
         }
         
         .admin-panel .success {
@@ -201,6 +231,7 @@
         .admin-panel .member-item .member-actions {
             display: flex;
             gap: 0.5rem;
+            flex-wrap: wrap;
         }
         
         .admin-panel .member-item .action-btn {
@@ -230,6 +261,15 @@
             background: #f5c6cb;
         }
         
+        .admin-panel .member-item .view-btn {
+            background: #cce5ff;
+            color: #004085;
+        }
+        
+        .admin-panel .member-item .view-btn:hover {
+            background: #b8d4f0;
+        }
+        
         /* ===== EDIT MODAL ===== */
         .modal-overlay {
             display: none;
@@ -252,7 +292,7 @@
             background: var(--white);
             padding: 2.5rem;
             border-radius: var(--radius);
-            max-width: 500px;
+            max-width: 600px;
             width: 90%;
             max-height: 90vh;
             overflow-y: auto;
@@ -274,19 +314,12 @@
             display: flex;
             gap: 1rem;
             margin-top: 1rem;
+            flex-wrap: wrap;
         }
         
         .modal-actions .btn {
             flex: 1;
-        }
-        
-        .modal-actions .btn-secondary {
-            background: var(--gray-200);
-            color: var(--gray-700);
-        }
-        
-        .modal-actions .btn-secondary:hover {
-            background: var(--gray-300);
+            min-width: 120px;
         }
         
         .modal-close {
@@ -304,15 +337,84 @@
         .modal-close:hover {
             color: var(--gray-800);
         }
+        
+        .list-input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .list-input-group input {
+            flex: 1;
+        }
+        
+        .list-input-group .btn-small {
+            width: auto;
+            white-space: nowrap;
+        }
+        
+        .list-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+        }
+        
+        .list-item-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--gray-200);
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--primary);
+        }
+        
+        .list-item-tag .remove-item {
+            cursor: pointer;
+            color: #721c24;
+            font-weight: 700;
+        }
+        
+        .list-item-tag .remove-item:hover {
+            color: #dc3545;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        /* Rank colors */
+        .rank-F { background: #94a3b8; color: white; }
+        .rank-D { background: #64748b; color: white; }
+        .rank-C { background: #3b82f6; color: white; }
+        .rank-B { background: #8b5cf6; color: white; }
+        .rank-A { background: var(--gold); color: white; }
+        
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .modal-content {
+                padding: 1.5rem;
+            }
+            .member-item .member-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="admin-panel" id="adminPanel">
             <h2><i class="fas fa-user-shield" style="color: var(--gold);"></i> Admin Panel</h2>
-            <p class="subtitle">Manage AeroBotics Guild Members</p>
+            <p class="subtitle">Full Member Management for AeroBotics Guild</p>
             
-            <!-- Admin Info (Visible after login) -->
+            <!-- Admin Info -->
             <div class="admin-info" id="adminInfo" style="display:none;">
                 <div>
                     <i class="fas fa-user-circle" style="color: var(--gold); font-size: 1.5rem;"></i>
@@ -324,7 +426,7 @@
                 </button>
             </div>
 
-            <!-- Login Form (Shown when not logged in) -->
+            <!-- Login Form -->
             <div id="loginSection">
                 <form id="adminLoginForm" class="auth-form">
                     <div class="form-group">
@@ -342,35 +444,41 @@
                 </form>
             </div>
 
-            <!-- Admin Actions (Shown after login) -->
+            <!-- Admin Actions -->
             <div id="adminActions" style="display:none;">
+                <!-- Add Member Form -->
                 <form id="adminAddMemberForm" class="auth-form">
-                    <div class="form-group">
-                        <label for="memberName"><i class="fas fa-user"></i> Full Name</label>
-                        <input type="text" id="memberName" placeholder="e.g., Juan Dela Cruz" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="memberEmail"><i class="fas fa-envelope"></i> Email</label>
-                        <input type="email" id="memberEmail" placeholder="e.g., juan@email.com" required />
+                    <h3><i class="fas fa-user-plus" style="color: var(--gold);"></i> Add New Member</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="memberName"><i class="fas fa-user"></i> Full Name</label>
+                            <input type="text" id="memberName" placeholder="e.g., Juan Dela Cruz" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="memberEmail"><i class="fas fa-envelope"></i> Email</label>
+                            <input type="email" id="memberEmail" placeholder="e.g., juan@email.com" required />
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="memberPassword"><i class="fas fa-lock"></i> Temporary Password</label>
                         <input type="text" id="memberPassword" placeholder="e.g., Temp123!" required />
                         <small style="color: var(--gray-500); font-size: 0.8rem;">Member will change this on first login</small>
                     </div>
-                    <div class="form-group">
-                        <label for="memberRank"><i class="fas fa-star"></i> Initial Rank</label>
-                        <select id="memberRank" required>
-                            <option value="F">F - Entry Level</option>
-                            <option value="D">D - Developing</option>
-                            <option value="C">C - Contributing</option>
-                            <option value="B">B - Advanced</option>
-                            <option value="A">A - Elite</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="memberPoints"><i class="fas fa-coins"></i> Initial Points</label>
-                        <input type="number" id="memberPoints" value="0" min="0" />
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="memberRank"><i class="fas fa-star"></i> Initial Rank</label>
+                            <select id="memberRank" required>
+                                <option value="F">F - Entry Level</option>
+                                <option value="D">D - Developing</option>
+                                <option value="C">C - Contributing</option>
+                                <option value="B">B - Advanced</option>
+                                <option value="A">A - Elite</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="memberPoints"><i class="fas fa-coins"></i> Initial Points</label>
+                            <input type="number" id="memberPoints" value="0" min="0" />
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="memberTrack"><i class="fas fa-robot"></i> Track</label>
@@ -399,38 +507,49 @@
         </div>
     </div>
 
-    <!-- ===== EDIT MEMBER MODAL ===== -->
+    <!-- ===== EDIT MEMBER MODAL (FULL) ===== -->
     <div class="modal-overlay" id="editModal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeEditModal()">&times;</button>
             <h3><i class="fas fa-edit" style="color: var(--gold);"></i> Edit Member</h3>
-            <p class="modal-subtitle">Update member details, points, and rank.</p>
+            <p class="modal-subtitle" id="editMemberNameDisplay">Update all member details</p>
             
             <form id="editMemberForm" class="auth-form">
                 <input type="hidden" id="editMemberId" />
                 
-                <div class="form-group">
-                    <label for="editName"><i class="fas fa-user"></i> Full Name</label>
-                    <input type="text" id="editName" required />
+                <!-- Basic Info -->
+                <h4 style="color: var(--primary); margin-top: 0.5rem;">Basic Information</h4>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editName"><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="editName" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="editEmail"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="editEmail" required />
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="editEmail"><i class="fas fa-envelope"></i> Email</label>
-                    <input type="email" id="editEmail" required />
+                
+                <!-- Rank & Points -->
+                <h4 style="color: var(--primary); margin-top: 0.5rem;">Progress & Ranking</h4>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editRank"><i class="fas fa-star"></i> Rank</label>
+                        <select id="editRank" required>
+                            <option value="F">F - Entry Level</option>
+                            <option value="D">D - Developing</option>
+                            <option value="C">C - Contributing</option>
+                            <option value="B">B - Advanced</option>
+                            <option value="A">A - Elite</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPoints"><i class="fas fa-coins"></i> Points</label>
+                        <input type="number" id="editPoints" min="0" required />
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="editRank"><i class="fas fa-star"></i> Rank</label>
-                    <select id="editRank" required>
-                        <option value="F">F - Entry Level</option>
-                        <option value="D">D - Developing</option>
-                        <option value="C">C - Contributing</option>
-                        <option value="B">B - Advanced</option>
-                        <option value="A">A - Elite</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="editPoints"><i class="fas fa-coins"></i> Points</label>
-                    <input type="number" id="editPoints" min="0" required />
-                </div>
+                
+                <!-- Track -->
                 <div class="form-group">
                     <label for="editTrack"><i class="fas fa-robot"></i> Track</label>
                     <select id="editTrack">
@@ -441,9 +560,39 @@
                     </select>
                 </div>
                 
+                <!-- Modules -->
+                <h4 style="color: var(--primary); margin-top: 0.5rem;">
+                    <i class="fas fa-certificate"></i> Modules Completed
+                </h4>
+                <div class="list-input-group">
+                    <input type="text" id="moduleInput" placeholder="Enter module name" />
+                    <button type="button" class="btn btn-small btn-success" onclick="addModuleToList()">
+                        <i class="fas fa-plus"></i> Add
+                    </button>
+                </div>
+                <div class="list-items" id="modulesList"></div>
+                
+                <!-- Projects -->
+                <h4 style="color: var(--primary); margin-top: 0.5rem;">
+                    <i class="fas fa-project-diagram"></i> Projects Joined
+                </h4>
+                <div class="list-input-group">
+                    <input type="text" id="projectInput" placeholder="Enter project name" />
+                    <button type="button" class="btn btn-small btn-success" onclick="addProjectToList()">
+                        <i class="fas fa-plus"></i> Add
+                    </button>
+                </div>
+                <div class="list-items" id="projectsList"></div>
+                
+                <!-- Join Date -->
+                <div class="form-group">
+                    <label for="editJoinDate"><i class="fas fa-calendar"></i> Join Date</label>
+                    <input type="datetime-local" id="editJoinDate" />
+                </div>
+                
                 <div class="modal-actions">
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Save Changes
+                        <i class="fas fa-save"></i> Save All Changes
                     </button>
                     <button type="button" class="btn btn-secondary" onclick="closeEditModal()">
                         Cancel
@@ -461,19 +610,23 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
     <script>
-        // ===== YOUR FIREBASE CONFIG (REPLACE WITH YOUR ACTUAL CONFIG) =====
+        // ===== FIREBASE CONFIG =====
         const firebaseConfig = {
-           apiKey: "AIzaSyB00V6hNLRbUsg8tnSoUksBZbARIbNhsGI",
-  authDomain: "aerobotics-guild.firebaseapp.com",
-  projectId: "aerobotics-guild",
-  storageBucket: "aerobotics-guild.firebasestorage.app",
-  messagingSenderId: "797399215588",
-  appId: "1:797399215588:web:f0fb7952501bd57c94abf1"
+            apiKey: "YOUR-API-KEY",
+            authDomain: "YOUR-PROJECT.firebaseapp.com",
+            projectId: "YOUR-PROJECT-ID",
+            storageBucket: "YOUR-PROJECT.appspot.com",
+            messagingSenderId: "YOUR-SENDER-ID",
+            appId: "YOUR-APP-ID"
         };
 
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
+
+        // ===== GLOBAL VARIABLES FOR EDIT =====
+        let editModules = [];
+        let editProjects = [];
 
         // ===== CHECK ADMIN STATUS =====
         auth.onAuthStateChanged(async (user) => {
@@ -618,13 +771,17 @@
                 let html = '';
                 snapshot.forEach(doc => {
                     const data = doc.data();
+                    const rankClass = 'rank-' + (data.rank || 'F');
                     html += `
                         <div class="member-item">
                             <div class="member-info">
                                 <span class="member-name">${data.name || 'No Name'}</span>
                                 <span class="member-email">${data.email}</span>
-                                <span class="member-rank">${data.rank || 'F'}</span>
+                                <span class="member-rank ${rankClass}">${data.rank || 'F'}</span>
                                 <span class="member-points">${data.points || 0} pts</span>
+                                <span style="font-size:0.7rem; color:var(--gray-500);">
+                                    ${data.modules ? data.modules.length : 0} modules
+                                </span>
                             </div>
                             <div class="member-actions">
                                 <button class="action-btn edit-btn" onclick="openEditModal('${doc.id}')">
@@ -644,7 +801,7 @@
             }
         }
 
-        // ===== OPEN EDIT MODAL =====
+        // ===== OPEN EDIT MODAL (FULL) =====
         async function openEditModal(uid) {
             try {
                 const doc = await db.collection('members').doc(uid).get();
@@ -655,12 +812,30 @@
                 
                 const data = doc.data();
                 
+                // Set basic info
                 document.getElementById('editMemberId').value = uid;
+                document.getElementById('editMemberNameDisplay').textContent = 'Editing: ' + (data.name || 'Member');
                 document.getElementById('editName').value = data.name || '';
                 document.getElementById('editEmail').value = data.email || '';
                 document.getElementById('editRank').value = data.rank || 'F';
                 document.getElementById('editPoints').value = data.points || 0;
                 document.getElementById('editTrack').value = (data.tracks && data.tracks[0]) || 'Systems & Fabrication';
+                
+                // Set join date
+                if (data.joinDate) {
+                    const date = new Date(data.joinDate);
+                    document.getElementById('editJoinDate').value = date.toISOString().slice(0, 16);
+                } else {
+                    document.getElementById('editJoinDate').value = '';
+                }
+                
+                // Set modules
+                editModules = Array.isArray(data.modules) ? [...data.modules] : [];
+                renderModulesList();
+                
+                // Set projects
+                editProjects = Array.isArray(data.projects) ? [...data.projects] : [];
+                renderProjectsList();
                 
                 // Clear messages
                 document.getElementById('editMessage').className = 'success';
@@ -680,6 +855,72 @@
         function closeEditModal() {
             document.getElementById('editModal').classList.remove('show');
             document.getElementById('editMemberId').value = '';
+            editModules = [];
+            editProjects = [];
+        }
+
+        // ===== MODULE LIST FUNCTIONS =====
+        function addModuleToList() {
+            const input = document.getElementById('moduleInput');
+            const value = input.value.trim();
+            if (value && !editModules.includes(value)) {
+                editModules.push(value);
+                renderModulesList();
+                input.value = '';
+            } else if (editModules.includes(value)) {
+                alert('Module already added!');
+            }
+        }
+
+        function removeModuleFromList(index) {
+            editModules.splice(index, 1);
+            renderModulesList();
+        }
+
+        function renderModulesList() {
+            const container = document.getElementById('modulesList');
+            if (editModules.length === 0) {
+                container.innerHTML = '<span style="color: var(--gray-400); font-size: 0.85rem;">No modules added yet</span>';
+                return;
+            }
+            container.innerHTML = editModules.map((module, index) => `
+                <span class="list-item-tag">
+                    ${module}
+                    <span class="remove-item" onclick="removeModuleFromList(${index})">&times;</span>
+                </span>
+            `).join('');
+        }
+
+        // ===== PROJECT LIST FUNCTIONS =====
+        function addProjectToList() {
+            const input = document.getElementById('projectInput');
+            const value = input.value.trim();
+            if (value && !editProjects.includes(value)) {
+                editProjects.push(value);
+                renderProjectsList();
+                input.value = '';
+            } else if (editProjects.includes(value)) {
+                alert('Project already added!');
+            }
+        }
+
+        function removeProjectFromList(index) {
+            editProjects.splice(index, 1);
+            renderProjectsList();
+        }
+
+        function renderProjectsList() {
+            const container = document.getElementById('projectsList');
+            if (editProjects.length === 0) {
+                container.innerHTML = '<span style="color: var(--gray-400); font-size: 0.85rem;">No projects added yet</span>';
+                return;
+            }
+            container.innerHTML = editProjects.map((project, index) => `
+                <span class="list-item-tag">
+                    ${project}
+                    <span class="remove-item" onclick="removeProjectFromList(${index})">&times;</span>
+                </span>
+            `).join('');
         }
 
         // ===== SAVE EDITED MEMBER =====
@@ -692,6 +933,7 @@
             const rank = document.getElementById('editRank').value;
             const points = parseInt(document.getElementById('editPoints').value) || 0;
             const track = document.getElementById('editTrack').value;
+            const joinDate = document.getElementById('editJoinDate').value;
             
             const successDiv = document.getElementById('editMessage');
             const errorDiv = document.getElementById('editError');
@@ -708,29 +950,32 @@
                 successDiv.textContent = '⏳ Saving changes...';
                 errorDiv.className = 'error';
                 
-                // Update member data in Firestore
-                await db.collection('members').doc(uid).update({
+                // Prepare update data
+                const updateData = {
                     name: name,
                     email: email,
                     rank: rank,
                     points: points,
-                    tracks: [track]
-                });
+                    tracks: [track],
+                    modules: editModules,
+                    projects: editProjects
+                };
                 
-                // Also update the display name in Authentication
-                const user = auth.currentUser;
-                if (user && user.uid === uid) {
-                    await user.updateProfile({ displayName: name });
+                // Add join date if provided
+                if (joinDate) {
+                    updateData.joinDate = new Date(joinDate).toISOString();
                 }
                 
-                successDiv.textContent = '✅ Member updated successfully!';
+                // Update in Firestore
+                await db.collection('members').doc(uid).update(updateData);
+                
+                successDiv.textContent = '✅ All changes saved successfully!';
                 successDiv.className = 'success show';
                 errorDiv.className = 'error';
                 
                 // Reload member list
                 loadMembers();
                 
-                // Close modal after delay
                 setTimeout(() => {
                     closeEditModal();
                 }, 1500);
@@ -754,6 +999,21 @@
                 }
             }
         }
+
+        // ===== ENTER KEY SUPPORT =====
+        document.getElementById('moduleInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addModuleToList();
+            }
+        });
+        
+        document.getElementById('projectInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addProjectToList();
+            }
+        });
     </script>
 </body>
 </html>
