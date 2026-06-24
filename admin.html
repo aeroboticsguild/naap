@@ -588,21 +588,83 @@
                     </div>
                 </div>
 
-                <!-- ============================================ -->
-                <!-- ===== ADMIN TOOLS SECTION ===== -->
-                <!-- ============================================ -->
-                <div class="admin-tool-section">
-                    <h3><i class="fas fa-tools"></i> Admin Tools</h3>
-                    <div class="admin-tool-buttons">
-                        <button onclick="addReviewer()" class="btn btn-primary">
-                            <i class="fas fa-plus-circle"></i> Add Reviewer
-                        </button>
-                        <button onclick="viewPendingRequests()" class="btn btn-secondary">
-                            <i class="fas fa-list"></i> View Pending Requests
-                        </button>
+              <!-- ============================================ -->
+<!-- ===== ADMIN TOOLS SECTION ===== -->
+<!-- ============================================ -->
+<div class="admin-tool-section">
+    <h3><i class="fas fa-tools"></i> Admin Tools</h3>
+    <div class="admin-tool-buttons">
+        <button onclick="addReviewer()" class="btn btn-primary">
+            <i class="fas fa-plus-circle"></i> Add Reviewer
+        </button>
+        <button onclick="viewPendingRequests()" class="btn btn-secondary">
+            <i class="fas fa-list"></i> View Pending Requests
+        </button>
+        <button onclick="toggleReviewerManagement()" class="btn btn-secondary">
+            <i class="fas fa-book"></i> Manage Reviewers
+        </button>
+        <button onclick="toggleTrainingManagement()" class="btn btn-secondary">
+            <i class="fas fa-graduation-cap"></i> Manage Training
+        </button>
+    </div>
+
+    <!-- Reviewer Management -->
+    <div id="reviewerManagementContainer" class="management-container" style="display:none;">
+        <h4><i class="fas fa-book"></i> Manage Reviewers</h4>
+        <div id="reviewersListContainer" class="management-list">
+            <p style="color: var(--gray-500);">Loading reviewers...</p>
+        </div>
+    </div>
+
+    <!-- Training Management -->
+    <div id="trainingManagementContainer" class="management-container" style="display:none;">
+        <h4><i class="fas fa-graduation-cap"></i> Manage Training Modules</h4>
+        
+        <!-- Add Training Module -->
+        <div class="add-training-section">
+            <h5>Add New Training Module</h5>
+            <form id="addTrainingForm" class="training-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="trainingTitle">Title</label>
+                        <input type="text" id="trainingTitle" placeholder="e.g., Arduino Basics" required />
                     </div>
-                    <div id="pendingRequestsContainer" class="pending-requests-container"></div>
+                    <div class="form-group">
+                        <label for="trainingType">Type</label>
+                        <select id="trainingType" required>
+                            <option value="video">Video</option>
+                            <option value="resource">Resource Link</option>
+                        </select>
+                    </div>
                 </div>
+                <div class="form-group">
+                    <label for="trainingUrl">URL</label>
+                    <input type="url" id="trainingUrl" placeholder="https://youtube.com/embed/..." required />
+                </div>
+                <div class="form-group">
+                    <label for="trainingDescription">Description</label>
+                    <textarea id="trainingDescription" placeholder="Brief description of the module..." rows="2"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-small">
+                    <i class="fas fa-plus"></i> Add Training Module
+                </button>
+                <div id="trainingMessage" class="success"></div>
+                <div id="trainingError" class="error"></div>
+            </form>
+        </div>
+
+        <!-- Training Modules List -->
+        <div class="training-list-section">
+            <h5>Current Training Modules</h5>
+            <div id="trainingModulesContainer" class="management-list">
+                <p style="color: var(--gray-500);">Loading training modules...</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="pendingRequestsContainer" class="pending-requests-container"></div>
+</div>
+<!-- ===== END ADMIN TOOLS SECTION ===== -->
                 <!-- ===== END ADMIN TOOLS SECTION ===== -->
                 <!-- ============================================ -->
 
