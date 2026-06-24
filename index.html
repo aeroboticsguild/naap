@@ -39,30 +39,40 @@
         <div class="splash-particles" id="splashParticles"></div>
     </div>
 
-    <!-- ===== NAVIGATION ===== -->
-    <nav class="navbar" id="navbar">
-        <div class="container nav-container">
-            <div class="logo">
-                <img src="assets/images/profile.png" alt="AeroBotics Logo" class="logo-img" />
-                <span>AeroBotics</span>
-                <span class="logo-badge">Guild</span>
-            </div>
-            <div class="hamburger" id="hamburger">
-                <i class="fas fa-bars"></i>
-            </div>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#about">About</a></li>
-                <li><a href="#benefits">Benefits</a></li>
-                <li><a href="#rankings">Rankings</a></li>
-                <li><a href="#officers">Officers</a></li>
-                <li><a href="#membership">Membership</a></li>
-                <li><a href="#resources">Resources</a></li>
-                <li><a href="https://forms.gle/your-google-form-link" target="_blank" class="btn btn-nav-apply">
-                    <i class="fas fa-paper-plane"></i> Join Now
-                </a></li>
-            </ul>
+<!-- ===== NAVIGATION ===== -->
+<nav class="navbar" id="navbar">
+    <div class="container nav-container">
+        <div class="logo">
+            <img src="assets/images/profile.png" alt="AeroBotics Logo" class="logo-img" />
+            <span>AeroBotics</span>
+            <span class="logo-badge">Guild</span>
         </div>
-    </nav>
+        <div class="hamburger" id="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#about">About</a></li>
+            <li><a href="#benefits">Benefits</a></li>
+            <li><a href="#rankings">Rankings</a></li>
+            <li><a href="#officers">Officers</a></li>
+            <li><a href="#membership">Membership</a></li>
+            <li><a href="#resources">Resources</a></li>
+            
+            <!-- 👇 ADD SIGN-IN BUTTONS HERE 👇 -->
+            <li><a href="#member-auth" class="btn btn-nav-apply" id="loginNavBtn">
+                <i class="fas fa-user-lock"></i> Sign In
+            </a></li>
+            <li><a href="#member-dashboard" class="btn btn-nav-apply" id="dashboardNavBtn" style="display:none;">
+                <i class="fas fa-user-circle"></i> Dashboard
+            </a></li>
+            <!-- 👆 END OF ADDED BUTTONS 👆 -->
+            
+            <li><a href="https://forms.gle/your-google-form-link" target="_blank" class="btn btn-nav-apply">
+                <i class="fas fa-paper-plane"></i> Join Now
+            </a></li>
+        </ul>
+    </div>
+</nav>
 
     <!-- ===== HERO ===== -->
     <section class="hero" id="home">
@@ -630,7 +640,155 @@
             </div>
         </div>
     </section>
+    
+<!-- ===== MEMBER AUTHENTICATION ===== -->
+<section class="member-auth" id="member-auth">
+    <div class="container">
+        <!-- Login Form (Visible when not logged in) -->
+        <div class="auth-container" id="loginContainer">
+            <div class="auth-box">
+                <div class="auth-header">
+                    <img src="assets/images/profile.png" alt="AeroBotics" class="auth-logo" />
+                    <h2>Member Sign In</h2>
+                    <p>Enter your credentials to access member-only content</p>
+                </div>
+                
+                <form id="loginForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="loginEmail"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="loginEmail" placeholder="Enter your registered email" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword"><i class="fas fa-lock"></i> Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required />
+                        <span class="toggle-password" onclick="togglePassword('loginPassword')">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-login">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                    <div id="loginMessage" class="auth-message"></div>
+                    <div class="auth-links">
+                        <a href="#" onclick="showForgotPassword()">Forgot password?</a>
+                    </div>
+                </form>
+            </div>
 
+            <!-- Forgot Password Form -->
+            <div class="auth-box" id="forgotContainer" style="display:none;">
+                <div class="auth-header">
+                    <h2>Reset Password</h2>
+                    <p>Enter your email to receive a reset link</p>
+                </div>
+                <form id="forgotForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="resetEmail"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="resetEmail" placeholder="Enter your email" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Send Reset Link
+                    </button>
+                    <div id="resetMessage" class="auth-message"></div>
+                    <div class="auth-links">
+                        <a href="#" onclick="showLogin()">Back to Sign In</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- ===== MEMBER DASHBOARD (Hidden until login) ===== -->
+        <div class="member-dashboard" id="memberDashboard" style="display:none;">
+            <div class="dashboard-header">
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <div>
+                        <h3 id="userName">Welcome, Member!</h3>
+                        <p id="userEmail">member@aerobotics.com</p>
+                        <span class="user-rank-badge" id="userRankBadge">Rank: F</span>
+                    </div>
+                </div>
+                <div class="dashboard-actions">
+                    <button onclick="showChangePassword()" class="btn btn-secondary" id="changePwdBtn">
+                        <i class="fas fa-key"></i> Change Password
+                    </button>
+                    <button onclick="logoutUser()" class="btn btn-secondary">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+
+            <!-- Change Password Modal -->
+            <div class="change-password-modal" id="changePasswordModal" style="display:none;">
+                <div class="modal-content">
+                    <h3><i class="fas fa-key"></i> Change Password</h3>
+                    <form id="changePasswordForm" class="auth-form">
+                        <div class="form-group">
+                            <label>Current Password</label>
+                            <input type="password" id="currentPassword" placeholder="Enter current password" required />
+                        </div>
+                        <div class="form-group">
+                            <label>New Password</label>
+                            <input type="password" id="newPassword" placeholder="Enter new password (min 6 chars)" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm New Password</label>
+                            <input type="password" id="confirmPassword" placeholder="Confirm new password" required />
+                        </div>
+                        <div class="modal-actions">
+                            <button type="submit" class="btn btn-primary">Update Password</button>
+                            <button type="button" onclick="hideChangePassword()" class="btn btn-secondary">Cancel</button>
+                        </div>
+                        <div id="passwordMessage" class="auth-message"></div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Dashboard Stats -->
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <i class="fas fa-star"></i>
+                    <span class="stat-number" id="userPoints">0</span>
+                    <span class="stat-label">Total Points</span>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-trophy"></i>
+                    <span class="stat-number" id="userRank">F</span>
+                    <span class="stat-label">Current Rank</span>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-project-diagram"></i>
+                    <span class="stat-number" id="userProjects">0</span>
+                    <span class="stat-label">Projects Joined</span>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-certificate"></i>
+                    <span class="stat-number" id="userModules">0</span>
+                    <span class="stat-label">Modules Completed</span>
+                </div>
+            </div>
+
+            <!-- Member-Only Content -->
+            <div class="member-content">
+                <h3><i class="fas fa-lock"></i> Member-Only Access</h3>
+                <div class="member-links">
+                    <a href="#training" class="member-link">
+                        <i class="fas fa-graduation-cap"></i> Training Modules
+                    </a>
+                    <a href="#blog" class="member-link">
+                        <i class="fas fa-newspaper"></i> Knowledge Base
+                    </a>
+                    <a href="#videos" class="member-link">
+                        <i class="fas fa-video"></i> Video Gallery
+                    </a>
+                    <a href="#competitions" class="member-link">
+                        <i class="fas fa-trophy"></i> Competition Highlights
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
     <!-- ===== APPLY CTA ===== -->
     <section class="apply-cta" id="apply">
         <div class="container">
@@ -707,7 +865,28 @@
         <i class="fas fa-bullhorn"></i>
         <span>🚀 Membership Drive is NOW OPEN!</span>
     </div>
+<!-- ===== FIREBASE SDK ===== -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
+<script>
+    // ===== YOUR FIREBASE CONFIG (REPLACE WITH YOURS) =====
+    const firebaseConfig = {
+apiKey: "AIzaSyB00V6hNLRbUsg8tnSoUksBZbARIbNhsGI",
+  authDomain: "aerobotics-guild.firebaseapp.com",
+  projectId: "aerobotics-guild",
+  storageBucket: "aerobotics-guild.firebasestorage.app",
+  messagingSenderId: "797399215588",
+  appId: "1:797399215588:web:f0fb7952501bd57c94abf1"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+</script>
+    
     <!-- ===== CUSTOM JS ===== -->
     <script src="js/script.js"></script>
 </body>
