@@ -294,41 +294,34 @@ firebase.auth().onAuthStateChanged((user) => {
 // ===== LOAD MEMBER DATA FROM FIRESTORE =====
 async function loadMemberData(uid) {
     try {
-        console.log('Loading member data for UID:', uid);
+        console.log('📊 Loading member data for UID:', uid);
         
+        // Get member document from Firestore
         const doc = await firebase.firestore().collection('members').doc(uid).get();
-        
-        console.log('Document exists?', doc.exists);
         
         if (doc.exists) {
             const data = doc.data();
-            console.log('Member data:', data);
+            console.log('✅ Member data loaded:', data);
             
-            // Update points - handle null/undefined
-            const points = data.points || 0;
-            document.getElementById('userPoints').textContent = points;
-            
-            // Update rank
+            // Safely get values with fallbacks
+            const points = data.points !== undefined ? data.points : 0;
             const rank = data.rank || 'F';
+            const projects = data.projects || [];
+            const modules = data.modules || [];
+            const name = data.name || 'Member';
+            
+            // Update UI
+            document.getElementById('userName').textContent = name;
+            document.getElementById('userPoints').textContent = points;
             document.getElementById('userRank').textContent = rank;
             document.getElementById('userRankBadge').textContent = 'Rank: ' + rank;
-            
-            // Update projects count
-            const projects = data.projects || [];
             document.getElementById('userProjects').textContent = projects.length;
-            
-            // Update modules count
-            const modules = data.modules || [];
             document.getElementById('userModules').textContent = modules.length;
             
-            // Update name (if not already set)
-            if (data.name) {
-                document.getElementById('userName').textContent = data.name;
-            }
+            console.log('✅ Dashboard updated successfully!');
             
-            console.log('Dashboard updated successfully!');
         } else {
-            console.warn('No member document found for UID:', uid);
+            console.warn('⚠️ No member document found for UID:', uid);
             // Set default values
             document.getElementById('userPoints').textContent = '0';
             document.getElementById('userRank').textContent = 'F';
@@ -336,8 +329,9 @@ async function loadMemberData(uid) {
             document.getElementById('userProjects').textContent = '0';
             document.getElementById('userModules').textContent = '0';
         }
+        
     } catch (error) {
-        console.error('Error loading member data:', error);
+        console.error('❌ Error loading member data:', error);
         // Set fallback values
         document.getElementById('userPoints').textContent = '0';
         document.getElementById('userRank').textContent = 'F';
