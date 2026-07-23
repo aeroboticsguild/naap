@@ -1,3 +1,4 @@
+
 // ============================================================
 // ===== SPLASH SCREEN =====
 // ============================================================
@@ -40,19 +41,37 @@ function createHeroParticles() {
 }
 createHeroParticles();
 
-// ===== SPLASH SCREEN AUTO-DISMISS =====
-setTimeout(() => {
+// ============================================================
+// ===== FIXED: SPLASH SCREEN AUTO-DISMISS =====
+// ============================================================
+
+// Hide splash screen function
+function hideSplashScreen() {
     if (splashScreen) {
         splashScreen.classList.add('hidden');
+        console.log('✅ Splash screen hidden');
+        
+        // Show scroll reveal elements after splash is hidden
+        setTimeout(() => {
+            document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right').forEach(el => {
+                el.classList.add('visible');
+            });
+        }, 300);
     }
-    setTimeout(() => {
-        document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right').forEach(el => {
-            el.classList.add('visible');
-        });
-    }, 300);
-}, 3200);
+}
 
+// Dismiss splash screen after 3.5 seconds
+setTimeout(hideSplashScreen, 3500);
+
+// Also hide on click (user can skip)
+if (splashScreen) {
+    splashScreen.addEventListener('click', hideSplashScreen);
+}
+
+// ============================================================
 // ===== SCROLL REVEAL OBSERVER =====
+// ============================================================
+
 const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -72,15 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// ===== PRELOADER =====
-window.addEventListener('load', () => {
-    const preloader = document.getElementById('preloader');
-    if (preloader) {
-        setTimeout(() => {
-            preloader.classList.add('hidden');
-        }, 800);
-    }
-});
+// ============================================================
+// ===== PRELOADER (removed - using splash screen instead) =====
+// ============================================================
+// No preloader needed since splash screen handles the loading state
 
 // ===== NAVBAR TOGGLE (Mobile) =====
 const hamburger = document.getElementById('hamburger');
