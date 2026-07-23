@@ -1236,34 +1236,3 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(initializeTrainingModules, 1500);
     }
 });
-
-// ===== HAMBURGER MENU TOGGLE =====
-const hamburger = document.getElementById('hamburger');
-const navLinks = document.getElementById('navLinks');
-
-if (hamburger && navLinks) {
-    hamburger.addEventListener('click', function() {
-        navLinks.classList.toggle('open');
-        // Toggle icon between bars and X
-        const icon = this.querySelector('i');
-        if (navLinks.classList.contains('open')) {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-times');
-        } else {
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
-        }
-    });
-
-    // Close menu when a link is clicked (mobile)
-    navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            if (window.innerWidth <= 820) {
-                navLinks.classList.remove('open');
-                const icon = hamburger.querySelector('i');
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-        });
-    });
-}
