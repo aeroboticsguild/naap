@@ -10,6 +10,169 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css" />
+    <style>
+        /* ===== WHAT'S HAPPENING PAGE STYLES ===== */
+        .whats-happening-section {
+            background: linear-gradient(160deg, #f8fafc 0%, #ffffff 100%);
+            padding: 5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .whats-happening-section::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(37,99,235,0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .whats-happening-section .section-header {
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+        .event-spotlight {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2.5rem;
+            background: #ffffff;
+            border-radius: 2.5rem;
+            padding: 2.2rem;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1);
+            margin-bottom: 3.5rem;
+            align-items: center;
+            border: 1px solid rgba(37,99,235,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+        .event-spotlight:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 32px 64px -14px rgba(0,0,0,0.15);
+        }
+        .event-spotlight.constitution-card {
+            background: #f0f7ff;
+            border-left: 6px solid #2563eb;
+            border-radius: 2rem 2.5rem 2.5rem 2rem;
+        }
+        .event-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.9rem;
+            flex: 1 1 320px;
+            min-width: 260px;
+        }
+        .event-gallery img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 1.5rem;
+            box-shadow: 0 12px 24px -8px rgba(0,0,0,0.18);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .event-gallery img:hover {
+            transform: scale(1.04);
+            box-shadow: 0 20px 30px -10px rgba(37,99,235,0.45);
+            border-color: rgba(37,99,235,0.3);
+        }
+        .event-details {
+            flex: 1 1 300px;
+        }
+        .event-date-badge {
+            display: inline-flex;
+            align-items: center;
+            background: #eef2ff;
+            color: #1e3a8a;
+            font-weight: 700;
+            padding: 0.45rem 1.3rem;
+            border-radius: 3rem;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            margin-bottom: 1rem;
+            border: 1px solid #bfdbfe;
+        }
+        .event-date-badge i {
+            margin-right: 0.5rem;
+            color: #2563eb;
+        }
+        .event-details h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.7rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0f172a, #1e3a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.8rem;
+            line-height: 1.3;
+        }
+        .event-description {
+            font-size: 1.05rem;
+            color: #334155;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        .highlight-stat {
+            display: flex;
+            gap: 1.8rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-top: 1.2rem;
+            flex-wrap: wrap;
+        }
+        .highlight-stat span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: rgba(37,99,235,0.05);
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+        }
+        .highlight-stat span i {
+            color: #2563eb;
+            font-size: 1rem;
+        }
+        .btn-outline-light {
+            background: transparent;
+            border: 2px solid #2563eb;
+            color: #2563eb;
+            padding: 0.65rem 2rem;
+            border-radius: 3rem;
+            font-weight: 700;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 0.8rem;
+            font-size: 0.95rem;
+        }
+        .btn-outline-light:hover {
+            background: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 8px 20px rgba(37,99,235,0.35);
+        }
+        @media (max-width: 768px) {
+            .event-spotlight {
+                flex-direction: column;
+                padding: 1.5rem;
+                gap: 1.5rem;
+            }
+            .event-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .event-gallery img {
+                height: 130px;
+            }
+            .event-details h3 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -52,6 +215,7 @@
             </div>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#about">About</a></li>
+                <li><a href="#whats-happening">What's Happening</a></li>
                 <li><a href="#benefits">Benefits</a></li>
                 <li><a href="#rankings">Rankings</a></li>
                 <li><a href="#officers">Officers</a></li>
@@ -166,6 +330,80 @@
                     <span class="cd-label">Min</span>
                     <span id="countdown-seconds">00</span>
                     <span class="cd-label">Sec</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== WHAT IS HAPPENING (NEW SECTION) ===== -->
+    <section class="whats-happening-section" id="whats-happening">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">What's <span class="highlight">Happening</span></h2>
+                <p class="section-sub">
+                    Real milestones, real moments. Catch the latest updates from the AeroBotics Guild.
+                </p>
+            </div>
+
+            <!-- EVENT 1: June 29 Membership Drive -->
+            <div class="event-spotlight">
+                <div class="event-gallery">
+                    <img src="assets/Jun29-1.png" alt="Students gathering for membership orientation" loading="lazy" />
+                    <img src="assets/Jun29-2.png" alt="New members signing up" loading="lazy" />
+                    <img src="assets/Jun29-3.png" alt="Robotics demonstration during drive" loading="lazy" />
+                    <img src="assets/Jun29-4.png" alt="Group photo with new recruits" loading="lazy" />
+                </div>
+                <div class="event-details">
+                    <div class="event-date-badge">
+                        <i class="fas fa-calendar-star"></i> June 29, 2026
+                    </div>
+                    <h3>Guild Membership Blasts Off — Students Answer the Call</h3>
+                    <p class="event-description">
+                        Last <strong>June 29, 2026</strong>, the AeroBotics Guild threw open its doors in a high-energy
+                        <strong>Membership Drive</strong> that welcomed students from every corner of NAAP Palmayo-Basa.
+                        Aspiring roboticists, coders, and fabricators explored our five specialized tracks, chatted with
+                        founding members, and witnessed live robot demos. The turnout was phenomenal — over
+                        <strong>25 new applications</strong> were lodged in a single afternoon, proving that the future
+                        of innovation is already here.
+                    </p>
+                    <div class="highlight-stat">
+                        <span><i class="fas fa-user-plus"></i> 25+ new applicants</span>
+                        <span><i class="fas fa-robot"></i> Live robotics showcase</span>
+                        <span><i class="fas fa-comments"></i> Track consultations</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EVENT 2: July 20 Constitution & By-Laws Adopted -->
+            <div class="event-spotlight constitution-card">
+                <div class="event-gallery">
+                    <img src="assets/Jul20-1.png" alt="Fourth adjourned meeting in session" loading="lazy" />
+                    <img src="assets/Jul20-2.png" alt="Founding members reviewing by-laws" loading="lazy" />
+                    <img src="assets/Jul20-3.png" alt="Moment of approval and voting" loading="lazy" />
+                    <img src="assets/Jul20-4.png" alt="Constitution signing and adoption" loading="lazy" />
+                </div>
+                <div class="event-details">
+                    <div class="event-date-badge">
+                        <i class="fas fa-gavel"></i> July 20, 2026
+                    </div>
+                    <h3>Constitution Ratified! A Defining Moment at the Fourth Adjourned Meeting</h3>
+                    <p class="event-description">
+                        On <strong>July 20, 2026</strong>, the AeroBotics Guild convened its
+                        <strong>Fourth Adjourned Meeting of the First General Assembly</strong>. After weeks of careful
+                        deliberation, line-by-line revision, and collaborative debate, the founding members
+                        <strong>unanimously approved and formally adopted the official Constitution and By-Laws</strong>.
+                        This historic document now stands as the Guild's governing foundation — enshrining our
+                        principles, member rights, officer duties, and the visionary path forward for every
+                        future AeroBotics pioneer.
+                    </p>
+                    <div class="highlight-stat">
+                        <span><i class="fas fa-check-circle"></i> Unanimously adopted</span>
+                        <span><i class="fas fa-file-contract"></i> By-laws finalized</span>
+                        <span><i class="fas fa-users"></i> Full founding quorum</span>
+                    </div>
+                    <a href="#resources" class="btn-outline-light">
+                        <i class="fas fa-book-open"></i> View the Constitution
+                    </a>
                 </div>
             </div>
         </div>
@@ -787,15 +1025,12 @@
                     <!-- ===== TRAINING MODULES TAB ===== -->
                     <div class="tab-content active" id="tab-training">
                         <div class="training-grid">
-                            <!-- YouTube Videos Section -->
                             <div class="training-section">
                                 <h4><i class="fab fa-youtube"></i> Video Tutorials</h4>
                                 <div id="videoModulesContainer" class="video-grid">
                                     <p class="loading-text">Loading videos...</p>
                                 </div>
                             </div>
-
-                            <!-- Study Resources Section -->
                             <div class="training-section">
                                 <h4><i class="fas fa-globe"></i> Study Resources</h4>
                                 <div id="resourceModulesContainer" class="resource-links">
@@ -808,19 +1043,15 @@
                     <!-- ===== KNOWLEDGE BASE TAB ===== -->
                     <div class="tab-content" id="tab-knowledge">
                         <div class="knowledge-base">
-                            <!-- Reviewers Section -->
                             <div class="reviewers-section">
                                 <h4><i class="fas fa-file-alt"></i> Reviewers for Selected Subjects</h4>
                                 <div id="reviewersList" class="reviewers-grid">
                                     <p class="loading-text">Loading reviewers...</p>
                                 </div>
                             </div>
-
-                            <!-- Request Subject Form -->
                             <div class="request-section">
                                 <h4><i class="fas fa-plus-circle"></i> Request a Subject</h4>
                                 <p class="request-subtitle">Request a subject you want reviewers for. The admin will review and create one.</p>
-                                
                                 <form id="requestSubjectForm" class="request-form">
                                     <div class="form-row">
                                         <div class="form-group">
@@ -850,7 +1081,7 @@
                         </div>
                     </div>
 
-                    <!-- ===== VIDEO GALLERY TAB (Temporarily Unavailable) ===== -->
+                    <!-- ===== VIDEO GALLERY TAB ===== -->
                     <div class="tab-content" id="tab-videos">
                         <div class="coming-soon">
                             <i class="fas fa-video"></i>
@@ -864,7 +1095,7 @@
                         </div>
                     </div>
 
-                    <!-- ===== COMPETITION HIGHLIGHTS TAB (Temporarily Unavailable) ===== -->
+                    <!-- ===== COMPETITION HIGHLIGHTS TAB ===== -->
                     <div class="tab-content" id="tab-competitions">
                         <div class="coming-soon">
                             <i class="fas fa-trophy"></i>
@@ -926,6 +1157,7 @@
                 <div class="footer-links">
                     <h4>Quick Links</h4>
                     <a href="#about">About</a>
+                    <a href="#whats-happening">What's Happening</a>
                     <a href="#benefits">Benefits</a>
                     <a href="#rankings">Rankings</a>
                     <a href="#officers">Officers</a>
